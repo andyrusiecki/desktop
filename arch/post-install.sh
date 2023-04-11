@@ -97,6 +97,7 @@ packages=(
   flatpak
 
   # Other applications
+  visual-studio-code-bin
 )
 systemd_services_root=(
   # snapper
@@ -128,7 +129,26 @@ systemd_services_user=(
   pipewire-pulse.service
 )
 flatpak_apps=(
-  # TODO: add apps
+  app/org.mozilla.firefox/x86_64/stable
+  com.discordapp.Discord
+  com.getpostman.Postman
+  com.github.marhkb.Pods
+  com.github.tchx84.Flatseal
+  com.google.Chrome
+  com.mattjakeman.ExtensionManager
+  com.slack.Slack
+  com.spotify.Client
+  com.usebottles.bottles
+  com.valvesoftware.Steam
+  com.valvesoftware.Steam.CompatibilityTool.Proton
+  com.valvesoftware.Steam.Utility.gamescope
+  net.cozic.joplin_desktop
+  org.gnome.World.PikaBackup
+  org.gtk.Gtk3theme.adw-gtk3
+  org.libreoffice.LibreOffice
+  org.signal.Signal
+  runtime/org.freedesktop.Platform.ffmpeg-full/x86_64/22.08
+  us.zoom.Zoom
 )
 
 echo "Starting Arch Post-Install Tasks..."
@@ -352,8 +372,7 @@ if [[ $profile == "gnome" ]]; then
 
   gsettings set org.gnome.system.location enabled true
 
-  # TODO: validate app names
-  gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'firefox.desktop', 'chrome.desktop', 'spotify.desktop', 'steam.desktop', 'com.slack.Slack.desktop', 'net.cozic.joplin_desktop.desktop', 'code.desktop', 'console.desktop']"
+  gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'com.google.Chrome.desktop', 'com.spotify.Client.desktop', 'com.valvesoftware.Steam.desktop', 'com.slack.Slack.desktop', 'net.cozic.joplin_desktop.desktop', 'code.desktop', 'console.desktop']"
 
   # TODO: extension settings
 fi
