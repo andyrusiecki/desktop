@@ -286,10 +286,7 @@ esac
 paru -S --noconfirm --needed ${packages[@]}
 
 # 10 Install flatpak apps
-for app in ${flatpak_apps[@]}
-do
-	flatpak install --noninteractive $app
-done
+flatpak install --noninteractive ${flatpak_apps[@]}
 
 # 11. Copy config files
 sudo cp $root/assets/reflector.conf /etc/xdg/reflector/reflector.conf

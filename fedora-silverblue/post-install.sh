@@ -69,14 +69,12 @@ esac
 
 # 5. Replace fedora flatpak repo with flathub (https://www.reddit.com/r/Fedora/comments/z2kk88/fedora_silverblue_replace_the_fedora_flatpak_repo/)
 sudo flatpak remote-modify --no-filter --enable flathub
-flatpak install --noninteractive --reinstall flathub $(flatpak list --app-runtime=org.fedoraproject.Platform --columns=application | tail -n +1 )
+flatpak remove --noninteractive --assumeyes org.fedoraproject.MediaWriter
+flatpak install --noninteractive --assumeyes --reinstall flathub $(flatpak list --app-runtime=org.fedoraproject.Platform --columns=application | tail -n +1 )
 sudo flatpak remote-delete fedora
 
 # 6. Install flatpak apps
-for app in ${flatpak_apps[@]}
-do
-	flatpak install --noninteractive $app
-done
+flatpak install --noninteractive ${flatpak_apps[@]}
 
 # 7. Copy config files
 # shell
