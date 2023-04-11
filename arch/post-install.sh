@@ -317,10 +317,12 @@ chsh -s $(command -v fish)
 if [[ $profile == "gnome" ]]; then
   # gnome extensions
   extensions=(
+    AlphabeticalAppGrid@stuarthayhurst
     appindicatorsupport@rgcjonas.gmail.com
     bluetooth-quick-connect@bjarosze.gmail.com
     blur-my-shell@aunetx
     mediacontrols@cliffniff.github.com
+    notification-banner-reloaded@marcinjakubowski.github.com
     nightthemeswitcher@romainvigier.fr
     no-overview@fthx
     pip-on-top@rafostar.github.com
