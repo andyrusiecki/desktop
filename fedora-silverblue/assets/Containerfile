@@ -1,0 +1,45 @@
+FROM registry.fedoraproject.org/fedora-toolbox:37
+
+# Set max dnf parallel downloads to 20
+RUN echo "max_parallel_downloads=20" >> /etc/dnf/dnf.conf
+
+# Add Kubernetes repo
+RUN echo $'[kubernetes] \n\
+name=Kubernetes \n\
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-$basearch \n\
+enabled=1 \n\
+gpgcheck=1 \n\
+gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg \n\
+' > /etc/yum.repos.d/kubernetes.repo
+
+# Add starship copr repo
+RUN echo $'[copr:copr.fedorainfracloud.org:atim:starship] \n\
+name=Copr repo for starship owned by atim \n\
+baseurl=https://download.copr.fedorainfracloud.org/results/atim/starship/fedora-$releasever-$basearch/ \n\
+type=rpm-md \n\
+skip_if_unavailable=True \n\
+gpgcheck=1 \n\
+gpgkey=https://download.copr.fedorainfracloud.org/results/atim/starship/pubkey.gpg \n\
+repo_gpgcheck=0 \n\
+enabled=1 \n\
+enabled_metadata=1 \n\
+' > /etc/yum.repos.d/_copr_atim-starship.repo
+
+# Install extra packages
+RUN dnf install -y --refresh \
+  awscli \
+  docker-compose \
+  fish \
+  golang \
+  kubectl \
+  make \
+  podman-remote \
+  starship \
+  vim
+
+# Add Symlinks for remote podman
+RUN ln -s ~/.local/bin/podman-host /usr/bin/podman
+RUN ln -s ~/.local/bin/podman-host /usr/bin/docker
+
+# Add AWS ECR Credential Helper
+RUN go install github.com/awslabs/amazon-ecr-credential-helper/ecr-login/cli/docker-credential-ecr-login@latest
