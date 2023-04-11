@@ -47,13 +47,13 @@ flatpak_apps=(
 echo "Starting Fedora Silverblue Post-Install Tasks..."
 
 # 1. Update base image
-sudo rpm-ostree --apply-live update
+sudo rpm-ostree upgrade
 
 # 2. Add starship COPR repo
 sudo cp $root/assets/_copr_atim-starship.repo /etc/yum.repos.d/
 
 # 3. Layer fish and starship
-sudo rpm-ostree --apply-live install fish starship
+sudo rpm-ostree --apply-live install --assumeyes fish starship
 sudo usermod -s $(command -v fish) $USER
 
 # 4. Device
