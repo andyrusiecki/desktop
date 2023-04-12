@@ -99,6 +99,9 @@ install --mode 755 -T $root/assets/podman-host.sh ~/.local/bin/podman-host
 mkdir -p ~/.var/app/com.visualstudio.code/config/Code/User/globalStorage/ms-vscode-remote.remote-containers/nameConfigs/
 cp $root/assets/dev-toolbox.json ~/.var/app/com.visualstudio.code/config/Code/User/globalStorage/ms-vscode-remote.remote-containers/nameConfigs/
 
+# VS Code wrapper script
+install --mode 755 -T $root/assets/code.sh ~/.local/bin/code
+
 # 8. Add themes
 mkdir -p ~/.local/share/themes/
 
