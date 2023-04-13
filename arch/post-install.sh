@@ -94,6 +94,7 @@ packages=(
   flatpak
 
   # Other applications
+  firefox
   visual-studio-code-bin
 )
 systemd_services_root=(
@@ -126,26 +127,25 @@ systemd_services_user=(
   pipewire-pulse.service
 )
 flatpak_apps=(
-  app/org.mozilla.firefox/x86_64/stable
-  com.discordapp.Discord
-  com.getpostman.Postman
-  com.github.marhkb.Pods
-  com.github.tchx84.Flatseal
-  com.google.Chrome
-  com.mattjakeman.ExtensionManager
-  com.slack.Slack
-  com.spotify.Client
-  com.usebottles.bottles
-  com.valvesoftware.Steam
-  com.valvesoftware.Steam.CompatibilityTool.Proton
-  com.valvesoftware.Steam.Utility.gamescope
-  net.cozic.joplin_desktop
-  org.gnome.World.PikaBackup
-  org.gtk.Gtk3theme.adw-gtk3
-  org.libreoffice.LibreOffice
-  org.signal.Signal
-  runtime/org.freedesktop.Platform.ffmpeg-full/x86_64/22.08
-  us.zoom.Zoom
+  # com.discordapp.Discord
+  # com.getpostman.Postman
+  # com.github.marhkb.Pods
+  # com.github.tchx84.Flatseal
+  # com.google.Chrome
+  # com.mattjakeman.ExtensionManager
+  # com.slack.Slack
+  # com.spotify.Client
+  # com.usebottles.bottles
+  # com.valvesoftware.Steam
+  # com.valvesoftware.Steam.CompatibilityTool.Proton
+  # com.valvesoftware.Steam.Utility.gamescope
+  # net.cozic.joplin_desktop
+  # org.gnome.World.PikaBackup
+  # org.gtk.Gtk3theme.adw-gtk3
+  # org.libreoffice.LibreOffice
+  # org.signal.Signal
+  # runtime/org.freedesktop.Platform.ffmpeg-full/x86_64/22.08
+  # us.zoom.Zoom
 )
 
 echo "Starting Arch Post-Install Tasks..."
@@ -209,7 +209,6 @@ case $profile in
       brightnessctl
       btop
       file-roller
-      gdm
       grim
       gvfs
       hyprland
@@ -222,6 +221,7 @@ case $profile in
       polkit-kde-agent
       qt5-wayland
       qt6-wayland
+      sddm
       slurp
       swappy
       swaylock-effects
@@ -236,7 +236,7 @@ case $profile in
     )
 
     systemd_services_root+=(
-      gdm.service
+      sddm.service
     )
     ;;
 esac
@@ -251,6 +251,7 @@ case $device in
 
     if [[ $profile == "hyprland" ]]; then
       sudo echo "WLR_NO_HARDWARE_CURSORS=1" >> /etc/environment
+      sudo echo "WLR_RENDERER_ALLOW_SOFTWARE=1" >> /etc/environment
     fi
     ;;
 
