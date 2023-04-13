@@ -47,12 +47,12 @@ packages=(
 
   # fonts
   noto-fonts
-  ttf-sourcecodepro-nerd
-  ttf-roboto-mono-nerd
-  ttf-meslo-nerd
+  #ttf-sourcecodepro-nerd
+  #ttf-roboto-mono-nerd
+  #ttf-meslo-nerd
   ttf-jetbrains-mono-nerd
-  ttf-hack-nerd
-  ttf-ms-fonts
+  #ttf-hack-nerd
+  #ttf-ms-fonts
 
   # firewall (https://wiki.archlinux.org/title/Firewalld)
   firewalld
