@@ -212,6 +212,7 @@ case $profile in
       brightnessctl
       btop
       file-roller
+      gdm
       grim
       gvfs
       hyprland
@@ -224,7 +225,6 @@ case $profile in
       polkit-kde-agent
       qt5-wayland
       qt6-wayland
-      sddm-git
       slurp
       swappy
       swaylock-effects
@@ -239,7 +239,7 @@ case $profile in
     )
 
     systemd_services_root+=(
-      sddm.service
+      gdm.service
     )
     ;;
 esac
@@ -251,6 +251,10 @@ case $device in
       mesa
       xf86-video-vmware
     )
+
+    if [[ $profile == "hyprland" ]]; then
+      sudo echo "WLR_NO_HARDWARE_CURSORS=1" >> /etc/environment
+    fi
     ;;
 
   framework)
