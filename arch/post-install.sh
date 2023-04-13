@@ -74,9 +74,6 @@ packages=(
   libpulse
   wireplumber
 
-  # boot
-  plymouth
-
   # shell
   fish
   starship
