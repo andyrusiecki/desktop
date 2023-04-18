@@ -54,6 +54,7 @@ packages=(
   # Other applications
   code
   discord
+  gnome-tweaks
   google-chrome-stable
   libreoffice
   steam
@@ -93,7 +94,7 @@ sudo cp $root/assets/kubernetes.repo /etc/yum.repos.d/
 sudo cp $root/assets/vscode.repo /etc/yum.repos.d/
 
 # 4. update current packages
-sudo dnf -y --refresh update
+sudo dnf -y --refresh upgrade
 sudo dnf -y group install core
 
 # 5. Install Snapper and dnf plugin
@@ -101,8 +102,10 @@ sudo dnf -y install snapper python3-dnf-plugins-extras-snapper
 sudo snapper --config=root create-config /
 
 # 6. Install Multimedia codes
-sudo dnf -y group install multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+sudo dnf -y install gstreamer1-plugins-{bad-*,good-*,ugly-*,base} gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel ffmpeg gstreamer-ffmpeg
+sudo dnf -y install lame* --exclude=lame-devel
 sudo dnf -y group install sound-and-video
+sudo dnf -y group upgrade --with-optional Multimedia
 
 # 6. Profile
 case $profile in
