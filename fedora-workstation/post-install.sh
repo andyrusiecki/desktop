@@ -80,7 +80,7 @@ systemd_services_root=(
 echo "Starting Fedora Workstation Post-Install Tasks..."
 
 # 1. Update dnf conf
-sudo echo "max_parallel_downloads=20" >> /etc/dnf/dnf.conf
+sudo bash -c 'echo "max_parallel_downloads=20" >> /etc/dnf/dnf.conf'
 
 # 2. Enable RPM fusion
 sudo dnf -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
