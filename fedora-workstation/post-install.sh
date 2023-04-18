@@ -42,7 +42,6 @@ packages=(
   fontconfig
 
   # development
-  amazon-ecr-credential-helper # TODO: install via golang
   awscli
   docker-compose
   golang
@@ -83,27 +82,27 @@ echo "Starting Fedora Workstation Post-Install Tasks..."
 # 1. Update dnf conf
 sudo echo "max_parallel_downloads=20" >> /etc/dnf/dnf.conf
 
-# 2. update current packages
-sudo dnf update -y --refresh
+# 2. Enable RPM fusion
+sudo dnf -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-# 2. Install Snapper and dnf plugin
-sudo dnf install -y snapper python3-dnf-plugins-extras-snapper
-sudo snapper --config=root create-config /
-
-# 3. Enable RPM fusion
-sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
-sudo dnf groupupdate core
-
-# 4. Add COPR repos
+# 3. Add COPR repos
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 
 sudo cp $root/assets/starship.repo /etc/yum.repos.d/
 sudo cp $root/assets/kubernetes.repo /etc/yum.repos.d/
 sudo cp $root/assets/vscode.repo /etc/yum.repos.d/
 
-# 5. Install Multimedia codes
-sudo dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
-sudo dnf groupupdate sound-and-video
+# 4. update current packages
+sudo dnf -y --refresh update
+sudo dnf -y group install core
+
+# 5. Install Snapper and dnf plugin
+sudo dnf -y install snapper python3-dnf-plugins-extras-snapper
+sudo snapper --config=root create-config /
+
+# 6. Install Multimedia codes
+sudo dnf -y group install multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
+sudo dnf -y group install sound-and-video
 
 # 6. Profile
 case $profile in
@@ -145,7 +144,7 @@ case $device in
 esac
 
 # 8. Install packages
-sudo dnf install -y ${packages[@]}
+sudo dnf -y install ${packages[@]}
 
 # 9. Install flatpak apps
 flatpak install --noninteractive ${flatpak_apps[@]}
