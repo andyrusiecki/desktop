@@ -209,10 +209,15 @@ case $profile in
       brightnessctl
       btop
       file-roller
+      gnome-keyring
       grim
       gvfs
+      gvfs-smb
       hyprland
       kitty
+      libsecret
+      lightdm
+      lightdm-slick-greeter
       lxappearance
       mako
       pacman-contrib
@@ -221,13 +226,14 @@ case $profile in
       polkit-kde-agent
       qt5-wayland
       qt6-wayland
-      sddm
+      sshfs
       slurp
       swappy
       swaylock-effects
       swww
       thunar
       thunar-archive-plugin
+      thunar-volman
       waybar-hyprland
       wlogout
       wofi
@@ -236,7 +242,7 @@ case $profile in
     )
 
     systemd_services_root+=(
-      sddm.service
+      lightdm.service
     )
     ;;
 esac
@@ -251,7 +257,6 @@ case $device in
 
     if [[ $profile == "hyprland" ]]; then
       sudo echo "WLR_NO_HARDWARE_CURSORS=1" >> /etc/environment
-      sudo echo "WLR_RENDERER_ALLOW_SOFTWARE=1" >> /etc/environment
     fi
     ;;
 
@@ -288,7 +293,8 @@ esac
 paru -S --noconfirm --needed ${packages[@]}
 
 # 10 Install flatpak apps
-flatpak install --noninteractive ${flatpak_apps[@]}
+#flatpak install --noninteractive ${flatpak_apps[@]}
+echo "Skipping flatpak installs for now"
 
 # 11. Copy config files
 sudo cp $root/assets/reflector.conf /etc/xdg/reflector/reflector.conf
