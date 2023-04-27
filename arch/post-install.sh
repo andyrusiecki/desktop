@@ -206,27 +206,28 @@ case $profile in
 
   hyprland)
     packages+=(
-      brightnessctl
       btop
       file-roller
-      gnome-keyring
+      foot # use kitty if GPU found
+      #gnome-keyring
       grim
       gvfs
+      gvfs-google
       gvfs-smb
       hyprland
-      kitty
-      libsecret
-      lightdm
-      lightdm-slick-greeter
+      #kitty
+      #libsecret
+      light
       lxappearance
       mako
       pacman-contrib
       pamixer
       pavucontrol
-      polkit-kde-agent
+      polkit-gnome
       qt5-wayland
       qt6-wayland
-      sshfs
+      sddm-git
+      #sshfs
       slurp
       swappy
       swaylock-effects
@@ -237,13 +238,19 @@ case $profile in
       waybar-hyprland
       wlogout
       wofi
-      xdg-desktop-portal-hyprland-git
+      xdg-desktop-portal-hyprland
       xfce4-settings
     )
 
     systemd_services_root+=(
-      lightdm.service
+      sddm.service
     )
+
+    mkdir -p ~/.config/hypr
+
+    # wallpaper
+    cp $root/assets/wallpaper.jpg ~/.config/hypr/wallpaper
+    cp $root/assets/hyprland.conf ~/.config/hypr/hyprland.conf
     ;;
 esac
 
