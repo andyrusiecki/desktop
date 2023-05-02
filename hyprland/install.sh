@@ -21,17 +21,17 @@ root=$(dirname $(realpath $0))
 
 packages=(
   # base
-  linux-lts
-  nano
-  vim
-  openssh
-  htop
-  wget
-  iwd
-  wireless_tools
-  wpa_supplicant
-  smartmontools
-  xdg-utils
+  # linux-lts
+  # nano
+  # vim
+  # openssh
+  # htop
+  # wget
+  # iwd
+  # wireless_tools
+  # wpa_supplicant
+  # smartmontools
+  # xdg-utils
 
   # bluetooth
   bluez
@@ -39,42 +39,42 @@ packages=(
 
   # fonts
   noto-fonts
-  ttf-roboto-mono-nerd
-  ttf-ms-fonts
+  ttf-roboto-mono-nerd # AUR
+  ttf-ms-fonts # AUR
 
   # firewall (https://wiki.archlinux.org/title/Firewalld)
-  firewalld
+  # firewalld
 
   # printing (https://wiki.archlinux.org/title/CUPS)
-  cups
-  cups-pdf
+  # cups
+  # cups-pdf
 
   # samba (https://wiki.archlinux.org/title/Samba)
-  samba
+  # samba
 
   # sound (https://github.com/archlinux/archinstall/blob/master/profiles/applications/pipewire.py)
-  pipewire
-  pipewire-alsa
-  pipewire-jack
-  pipewire-pulse
-  gst-plugin-pipewire
-  libpulse
-  wireplumber
+  # pipewire
+  # pipewire-alsa
+  # pipewire-jack
+  # pipewire-pulse
+  # gst-plugin-pipewire
+  # libpulse
+  # wireplumber
 
   # shell
-  fish
-  starship
+  # fish
+  # starship
 
   # development
-  amazon-ecr-credential-helper
-  aws-cli-v2
-  docker-compose
-  go
-  jq
-  kubectl
-  make
-  podman
-  podman-docker
+  # amazon-ecr-credential-helper
+  # aws-cli-v2
+  # docker-compose
+  # go
+  # jq
+  # kubectl
+  # make
+  # podman
+  # podman-docker
 
   # hyprland
   adwaita-cursors
@@ -93,7 +93,6 @@ packages=(
   light
   lightdm
   lightdm-slick-greeter
-  nwg-look
   pacman-contrib
   pamixer
   pavucontrol
@@ -103,15 +102,15 @@ packages=(
   qt6-wayland
   sshfs
   slurp
-  swappy
+  # swappy
   swaybg
-  swaylock-effects
-  themix-full-git
+  swaylock-effects # AUR
+  # themix-full-git
   thunar
   thunar-archive-plugin
   thunar-volman
-  waybar-hyprland
-  wlogout
+  waybar-hyprland # AUR
+  wlogout # AUR
   wofi
   xdg-desktop-portal-hyprland
   xdg-user-dirs
@@ -121,7 +120,7 @@ packages=(
 
   # Other applications
   firefox
-  visual-studio-code-bin
+  visual-studio-code-bin # AUR
 )
 systemd_services_root=(
   # snapper
@@ -129,20 +128,20 @@ systemd_services_root=(
   snapper-timeline.timer
 
   # mirrorlist
-  reflector.service
+  #reflector.service
 
   # bluetooth
   bluetooth.service
 
   # firewall
-  firewalld.service
+  #firewalld.service
 
   # printing
-  cups.service
+  #cups.service
 
   # samba
-  smb.service
-  nmb.service
+  #smb.service
+  #nmb.service
 
   # containers
   podman.socket
@@ -152,7 +151,7 @@ systemd_services_root=(
 )
 systemd_services_user=(
   # sound
-  pipewire-pulse.service
+  #pipewire-pulse.service
 )
 
 job="Hyprland Install"
@@ -177,7 +176,7 @@ sudo sed -i '/\[multilib\]/,+1 s/#//' /etc/pacman.conf
 sudo pacman -Syu --noconfirm
 
 # Install initial packages
-sudo pacman -S --noconfirm --needed bat git reflector
+sudo pacman -S --noconfirm --needed reflector
 
 # Update pacman mirrorlist (https://wiki.archlinux.org/title/Reflector)
 sudo reflector --save /etc/pacman.d/mirrorlist --protocol https --country "United States" --latest 5 --sort age
@@ -202,11 +201,11 @@ if [[ $device == "framework" ]]; then
     imagemagick
 
     # power management
-    power-profiles-daemon
+    #power-profiles-daemon
   )
 
   systemd_services_root+=(
-    power-profiles-daemon.service
+    #power-profiles-daemon.service
   )
 
   # fixing brightness keys and screen freezes
@@ -245,12 +244,3 @@ sudo snapper -c root create --description "After Snapshot: $job"
 
 # Done
 echo -e "\n$job Complete!\n"
-
-echo -n "Restarting in "
-for i in {5..1}
-do
-  echo -n "$i..."
-  sleep 1
-done
-
-systemctl reboot
