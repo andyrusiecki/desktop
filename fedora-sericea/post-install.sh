@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts 'hd:p:' opt; do
+while getopts 'hd:' opt; do
   case "$opt" in
     d)
       arg="$OPTARG"
@@ -9,17 +9,9 @@ while getopts 'hd:p:' opt; do
       fi
       ;;
 
-    p)
-      arg="$OPTARG"
-      if [[ "$arg" == "sway" ]]; then
-        profile="$arg"
-      fi
-      ;;
-
     ?|h)
       echo "Usage: $(basename $0) [-v] [-d device] [-p profile]"
       echo -e "-d <device>\t runs additional tasks based on the device (available devices: framework)"
-      echo -e "-p <profile>\t runs additional tasks based on the profile (available profiles: sway)\n"
       exit 1
       ;;
   esac
@@ -27,150 +19,90 @@ done
 
 root=$(dirname $(realpath $0))
 
-packages=(
-  # base
-  vim
-
-  # shell
-  fish
-  starship
-
-  # font dependencies
-  curl
-  cabextract
-  xorg-x11-font-utils
-  fontconfig
-
-  # development
-  awscli
-  docker-compose
-  golang
-  jq
-  kubectl
-  make
-  moby-engine
-  python3-pip
-
-  # Other applications
-  code
-  discord
-  gnome-tweaks
-  google-chrome-stable
-  libreoffice
-  steam
-)
-
 flatpak_apps=(
+  app/org.mozilla.firefox/x86_64/stable
+  com.discordapp.Discord
   com.getpostman.Postman
+  com.github.marhkb.Pods
   com.github.tchx84.Flatseal
+  com.google.Chrome
   com.mattjakeman.ExtensionManager
   com.slack.Slack
   com.spotify.Client
   com.usebottles.bottles
+  com.valvesoftware.Steam
+  com.valvesoftware.Steam.CompatibilityTool.Proton
+  com.valvesoftware.Steam.Utility.gamescope
+  com.visualstudio.code
   io.github.realmazharhussain.GdmSettings
   net.cozic.joplin_desktop
   org.gnome.World.PikaBackup
   org.gtk.Gtk3theme.adw-gtk3
+  org.libreoffice.LibreOffice
   org.signal.Signal
+  runtime/org.freedesktop.Platform.ffmpeg-full/x86_64/22.08
   us.zoom.Zoom
 )
 
-systemd_services_root=(
-  docker
-)
-echo "Starting Fedora Workstation Post-Install Tasks..."
+echo "Starting Fedora Silverblue Post-Install Tasks..."
 
-# 1. Update dnf conf
-sudo bash -c 'echo "max_parallel_downloads=20" >> /etc/dnf/dnf.conf'
+# 1. Update base image
+sudo rpm-ostree upgrade
 
-# 2. Enable RPM fusion
-sudo dnf -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+# 2. Add starship COPR repo
+sudo cp $root/assets/_copr_atim-starship.repo /etc/yum.repos.d/
 
-# 3. Add COPR repos
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+# 3. Layer fish and starship
+sudo rpm-ostree --apply-live install --assumeyes fish starship
+sudo usermod -s $(command -v fish) $USER
 
-sudo cp $root/assets/starship.repo /etc/yum.repos.d/
-sudo cp $root/assets/kubernetes.repo /etc/yum.repos.d/
-sudo cp $root/assets/vscode.repo /etc/yum.repos.d/
-
-# 4. update current packages
-sudo dnf -y --refresh upgrade
-sudo dnf -y group install core
-
-# 5. Install Snapper and dnf plugin
-sudo dnf -y install snapper python3-dnf-plugins-extras-snapper
-sudo snapper --config=root create-config /
-
-# 6. Install Multimedia codes
-# currently broken on fedora 38
-#sudo dnf groupupdate multimedia --setop="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
-sudo dnf -y groupupdate sound-and-video
-
-# 6. Profile
-case $profile in
-  sway)
-    packages+=(
-      brightnessctl
-      dunst
-      gammastep
-      grimshot
-      kitty
-      playerctl
-      sway
-      swaybg
-      swayidle
-      swaylock
-      waybar
-      wofi
-    )
-    ;;
-esac
-
-# 7. Device
+# 4. Device
 case $device in
   framework)
-    packages+=(
-      # graphics
-      ffmpeg-free
-      libavcodec-freeworld
-      intel-media-driver
-    )
-
     # fixing brightness keys
-    sudo grubby --update-kernel=ALL --args="module_blacklist=hid_sensor_hub"
-
-    # improve NVMe power saving
-    sudo grubby --update-kernel=ALL --args="nvme.noacpi=1"
+    sudo rpm-ostree kargs --append="module_blacklist=hid_sensor_hub"
 
     # fixing screen freezes
-    sudo grubby --update-kernel=ALL --args="i915.enable_psr=0"
+    sudo rpm-ostree kargs --append="i915.enable_psr=0"
     ;;
 esac
 
-# 8. Install packages
-sudo dnf -y install ${packages[@]}
+# 5. Replace fedora flatpak repo with flathub (https://www.reddit.com/r/Fedora/comments/z2kk88/fedora_silverblue_replace_the_fedora_flatpak_repo/)
+sudo flatpak remote-modify --no-filter --enable flathub
+flatpak remove --noninteractive --assumeyes org.fedoraproject.MediaWriter
+flatpak install --noninteractive --assumeyes --reinstall flathub $(flatpak list --app-runtime=org.fedoraproject.Platform --columns=application | tail -n +1 )
+sudo flatpak remote-delete fedora
 
-# 9. Install flatpak apps
+# 6. Install flatpak apps
 flatpak install --noninteractive ${flatpak_apps[@]}
 
-mkdir -p ~/.local/share/applications
-# slack
-sed 's/@@u %U @@/--enable-features=UseOzonePlatform,WaylandWindowDecorations,WebRTCPipeWireCapturer --ozone-platform=wayland @@u %U @@/g' /var/lib/flatpak/exports/share/applications/com.slack.Slack.desktop > ~/.local/share/applications/com.slack.Slack.desktop
-
-# postman
-sed 's/@@u %U @@/--enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland @@u %U @@/g' /var/lib/flatpak/exports/share/applications/com.getpostman.Postman.desktop > ~/.local/share/applications/com.getpostman.Postman.desktop
-
-# 10. Copy config files
+# 7. Copy config files
 # shell
 mkdir -p ~/.config/fish/
 cp $root/assets/config.fish ~/.config/fish/
 cp $root/assets/starship.toml ~/.config/
 
+# podman
+mkdir -p ~/.config/containers/
+cp $root/assets/containers.conf ~/.config/containers/
+cp $root/assets/registries.conf ~/.config/containers/
+
 # AWS ECR helper config
 mkdir ~/.docker
 cp $root/assets/docker-config.json ~/.docker/config.json
 
-# 11. Add themes
+# podman host script
+mkdir -p ~/.local/bin/
+install --mode 755 -T $root/assets/podman-host.sh ~/.local/bin/podman-host
+
+# VS Code container config
+mkdir -p ~/.var/app/com.visualstudio.code/config/Code/User/globalStorage/ms-vscode-remote.remote-containers/nameConfigs/
+cp $root/assets/dev-toolbox.json ~/.var/app/com.visualstudio.code/config/Code/User/globalStorage/ms-vscode-remote.remote-containers/nameConfigs/
+
+# VS Code wrapper script
+install --mode 755 -T $root/assets/code.sh ~/.local/bin/code
+
+# 8. Add themes
 mkdir -p ~/.local/share/themes/
 
 tmp_dir=$(mktemp -d)
@@ -178,7 +110,7 @@ curl -L https://github.com/lassekongo83/adw-gtk3/releases/download/v4.5/adw-gtk3
 tar -xf $tmp_dir/adw-gtk3v4-5.tar.xz -C ~/.local/share/themes/
 rm -rf $tmp_dir
 
-# 12. Add fonts
+# 9. Add fonts
 mkdir -p ~/.local/share/fonts/
 
 tmp_dir=$(mktemp -d)
@@ -186,23 +118,26 @@ curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v2.3.3/JetBrai
 unzip $tmp_dir/JetBrainsMono.zip -d ~/.local/share/fonts/JetBrainsMono/
 rm -rf $tmp_dir
 
-# ms fonts
-sudo dnf install -y curl cabextract xorg-x11-font-utils fontconfig
-$ sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+# 10. hide built-in firefox
+mkdir -p ~/.local/share/applications/
+sed '2iHidden=true' /usr/share/applications/firefox.desktop > ~/.local/share/applications/firefox.desktop
 
-# 12. Post install tasks
-chsh -s $(command -v fish)
+# 11. set wayland vars for flatpak apps
+# vs code
+sed 's/@@ %F @@/--enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland @@ %F @@/g' /var/lib/flatpak/exports/share/applications/com.visualstudio.code.desktop > ~/.local/share/applications/com.visualstudio.code.desktop
+sed 's/@@ %F @@/--enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland @@ %F @@/g' /var/lib/flatpak/exports/share/applications/com.visualstudio.code-url-handler.desktop > ~/.local/share/applications/com.visualstudio.code-url-handler.desktop
 
-# docker user
-sudo groupadd docker
-sudo usermod -aG docker $USER
+# slack
+sed 's/@@u %U @@/--enable-features=UseOzonePlatform,WaylandWindowDecorations,WebRTCPipeWireCapturer --ozone-platform=wayland @@u %U @@/g' /var/lib/flatpak/exports/share/applications/com.slack.Slack.desktop > ~/.local/share/applications/com.slack.Slack.desktop
 
-# aws ecr helper
-go install github.com/awslabs/amazon-ecr-credential-helper/ecr-login/cli/docker-credential-ecr-login@latest
+# postman
+sed 's/@@u %U @@/--enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland @@u %U @@/g' /var/lib/flatpak/exports/share/applications/com.getpostman.Postman.desktop > ~/.local/share/applications/com.getpostman.Postman.desktop
 
-# pywal
-sudo pip3 install pywal
+# 12. create toolbox
+podman build -t dev-toolbox -f $root/assets/Containerfile
+toolbox create -i dev-toolbox dev
 
+# 13. gnome settings
 # gnome extensions
 extensions=(
   AlphabeticalAppGrid@stuarthayhurst
@@ -267,13 +202,10 @@ gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org
 # TODO: extension settings
 
 # 13. Enable systemd services
-for i in ${systemd_services_root[@]}
-do
-	sudo systemctl enable $i
-done
+systemctl --user enable --now podman.socket
 
 # Done
-echo -e "\nFedora Workstation Post-Install Tasks Complete!\n"
+echo -e "\nFedora Silverblue Post-Install Tasks Complete!\n"
 
 echo -n "Restarting in "
 for i in {5..1}

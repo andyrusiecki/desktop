@@ -1,0 +1,69 @@
+#!/bin/bash
+
+usage() {
+    echo "$0 [-t <theme>] [-i <wallpaper file>]"
+    exit
+}
+
+while getopts t:i: option
+do
+    case "${option}"
+        in
+        t)
+            theme=${OPTARG}
+        ;;
+        i)
+            image=${OPTARG}
+        ;;
+        *)
+            usage
+        ;;
+    esac
+done
+
+if [ -z "$theme" ] && [ -z "$image" ]; then
+    usage
+fi
+
+wallpaper_cache=$(realpath ~/.config/hypr/wallpaper)
+
+if [ ! -z "$image" ]; then
+    image=$(realpath $image)
+    wal -i $image
+    cp $image $wallpaper_cache
+fi
+
+if [ ! -z "$theme" ]; then
+    wal -n --theme $theme
+fi
+
+# source wal colors
+source ~/.cache/wal/colors.sh
+
+# dunst
+dunstrc=~/.config/dunst/dunstrc
+
+sed -i '/background = /s/.*/background = "'$color0'"/' $dunstrc
+sed -i '/foreground = /s/.*/foreground = "'$color7'"/' $dunstrc
+sed -i '/frame_color = /s/.*/frame_color = "'$color8'"/' $dunstrc
+
+killall -q dunst
+exec dunst
+
+# wofi
+for file in ~/.config/wofi/style.css ~/.config/wofi/style.menu.css; do
+    sed -i '/@define-color background /s/.*/@define-color background '$background';/' $file
+    sed -i '/@define-color foreground /s/.*/@define-color foreground '$foreground';/' $file
+
+    for i in {0..15}; do
+        c="color$i"
+        sed -i '/@define-color '$c' /s/.*/@define-color '$c' '${!c}';/' $file
+    done
+done
+
+# oomox themes
+oomox-cli ~/.cache/wal/colors-oomox -o pywal
+
+
+set_dunst_colors
+set_wofi_colors

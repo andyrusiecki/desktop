@@ -1,0 +1,11 @@
+#!/bin/bash
+
+entries="Balanced Power-Saver"
+
+selected=$(printf '%s\n' $entries | wofi --conf=$HOME/.config/wofi/config.menu --lines=2 --style=$HOME/.config/wofi/style.menu.css)
+
+if [ "$selected" != "" ]; then
+    profile=$(echo $selected | awk '{print tolower($1)}')
+    powerprofilesctl set $profile
+    dunstify "Power Profile" "Set to $selected"
+fi

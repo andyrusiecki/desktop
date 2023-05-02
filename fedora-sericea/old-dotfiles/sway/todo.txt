@@ -1,0 +1,9 @@
+- notifications list
+- systemd daemon for reflector
+- framework script setup
+- framework: auto-cpufreq
+- experiment with eww
+- experiment with hyprland
+- replace wofi with rofi
+- wifi rofi script instead of nmtui
+- bluetooth rofi script?

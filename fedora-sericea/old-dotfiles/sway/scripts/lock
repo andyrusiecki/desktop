@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# source wal colors
+source ~/.cache/wal/colors.sh
+
+swaylock \
+	--daemonize \
+	--ignore-empty-password \
+	--screenshots \
+	--clock \
+	--indicator \
+	--indicator-radius 100 \
+	--indicator-thickness 7 \
+	--effect-blur 7x5 \
+	--effect-vignette 0.5:0.5 \
+	--ring-color $color1 \
+	--key-hl-color $color2 \
+	--line-color 00000000 \
+  --text-color $foreground \
+	--inside-color $background \
+	--separator-color 00000000 \
+	--grace 2 \
+	--fade-in 0.2

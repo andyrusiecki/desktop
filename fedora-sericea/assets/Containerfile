@@ -1,0 +1,13 @@
+FROM registry.fedoraproject.org/fedora-toolbox:38
+
+# Set max dnf parallel downloads to 20
+RUN echo "max_parallel_downloads=20" >> /etc/dnf/dnf.conf
+
+# Install extra packages
+RUN dnf install -y --refresh \
+  btop \
+  ImageMagick \
+  python3-pip
+
+# Pywal
+RUN pip3 install pywal

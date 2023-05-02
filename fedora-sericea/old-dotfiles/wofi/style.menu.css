@@ -1,0 +1,33 @@
+@define-color background #282c34;
+@define-color foreground #abb2bf;
+@define-color color1 #e06c75;
+@define-color color8 #545862;
+
+*{
+    font-family: JetBrainsMono Nerd Font;
+}
+
+#window {
+    border: 1px solid @color1;
+    background-color: @background;
+    margin: 0px 5px 0px 5px;
+}
+
+#outer-box {
+    padding:10px;
+    margin-top: -28px;
+}
+
+#text {
+    padding: 5px;
+    color: @foreground;
+}
+
+#entry {
+    background-color: @color8;
+    margin: 5px 0px;
+}
+
+#entry:selected {
+    background-color: @color1;
+}

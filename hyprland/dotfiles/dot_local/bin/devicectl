@@ -1,0 +1,90 @@
+#!/bin/bash
+
+brightness_notify() {
+  local value=$(light)
+  value=${value%%.*}
+
+  notify-send -e -h string:x-canonical-private-synchronous:brightness \
+    -h "int:value:$VALUE" -t 800 "Brightness: ${VALUE}%"
+}
+
+brightness() {
+  case $1 in
+    get)
+      light -G
+      ;;
+
+    set)
+      light -S $2
+      brightness_notify
+      ;;
+
+    increase)
+      light -A $2
+      brightness_notify
+      ;;
+
+    decrease)
+      light -U $2
+      brightness_notify
+      ;;
+
+    *)
+      help
+      ;;
+  esac
+}
+
+volume_notify() {
+  local is_mute=$(pamixer --get-mute)
+  local state="$(pamixer --get-volume)%"
+
+  if [ $is_mute == "true" ]; then
+    state="muted"
+  fi
+
+  notify-send -e -h string:x-canonical-private-synchronous:volume \
+    -h "int:value:$VALUE" -t 800 "Volume: ${state}"
+}
+
+volume() {
+  case $1 in
+    get)
+      pamixer --get-volume
+      ;;
+
+    set)
+      pamixer --set-volume $2
+      volume_notify
+      ;;
+
+    increase)
+      pamixer --increase $2
+      volume_notify
+      ;;
+
+    decrease)
+      pamixer --decrease $2
+      volume_notify
+      ;;
+
+    mute)
+      pamixer --mute
+      volume_notify
+      ;;
+
+    unmute)
+      pamixer --unmute
+      volume_notify
+      ;;
+
+    toggle-mute)
+      pamixer --toggle-mute
+      volume_notify
+      ;;
+
+    *)
+      help
+      ;;
+  esac
+}

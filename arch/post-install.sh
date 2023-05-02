@@ -63,7 +63,7 @@ packages=(
 
   # samba (https://wiki.archlinux.org/title/Samba)
   samba
-  avahi
+#  avahi
 
   # sound (https://github.com/archlinux/archinstall/blob/master/profiles/applications/pipewire.py)
   pipewire
@@ -117,7 +117,7 @@ systemd_services_root=(
   # samba
   smb.service
   nmb.service
-  avahi-daemon.service
+  #avahi-daemon.service
 
   # containers
   podman.socket
@@ -239,6 +239,7 @@ case $profile in
       wlogout
       wofi
       xdg-desktop-portal-hyprland
+      xdg-user-dirs
       xfce4-settings
     )
 
