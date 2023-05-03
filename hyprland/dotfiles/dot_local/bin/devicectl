@@ -5,7 +5,7 @@ brightness_notify() {
   value=${value%%.*}
 
   notify-send -e -h string:x-canonical-private-synchronous:brightness \
-    -h "int:value:$VALUE" -t 800 "Brightness: ${VALUE}%"
+    -h "int:value:$value" -t 2000 "Brightness: ${value}%"
 }
 
 brightness() {
@@ -38,14 +38,16 @@ brightness() {
 
 volume_notify() {
   local is_mute=$(pamixer --get-mute)
-  local state="$(pamixer --get-volume)%"
+  local value="$(pamixer --get-volume)"
+  local msg="$value%"
 
   if [ $is_mute == "true" ]; then
-    state="muted"
+    value="0"
+    msg="muted"
   fi
 
   notify-send -e -h string:x-canonical-private-synchronous:volume \
-    -h "int:value:$VALUE" -t 800 "Volume: ${state}"
+    -h "int:value:$value" -t 2000 "Volume: ${msg}"
 }
 
 volume() {
@@ -93,11 +95,11 @@ volume() {
 
 case $1 in
   brightness)
-    brightness ${@:1}
+    brightness ${@:2}
     ;;
 
   volume)
-    volume ${@:1}
+    volume ${@:2}
     ;;
 
   *)
