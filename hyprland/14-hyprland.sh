@@ -55,6 +55,8 @@ cp -r $root/dotfiles/dot_config/waybar ~/.config/
 mkdir -p ~/.local
 cp -r $root/dotfiles/dot_local/bin ~/.local/
 
+fish -c 'fish_add_path ~/.local/bin'
+
 # generate initial themes
 wal -i ~/.config/hypr/wallpaper
 oomox-cli ~/.cache/wal/colors-oomox -o pywal

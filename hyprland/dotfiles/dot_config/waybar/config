@@ -38,28 +38,28 @@
         "disable-scroll": true,
         "on-click": "activate",
         "all-outputs": true,
-        "format": "{icon}",
-        "format-icons": {
-            "1": "",
-            "2": "",
-            "3": "",
-            "4": "",
-            "5": "",
-            "6": "",
-            "7": "",
-            "urgent": "",
-            "focused": "",
-            "default": ""
-        },
-        "persistent_workspaces": {
-            "1": [],
-            "2": [],
-            "3": [],
-            "4": [],
-            "5": [],
-            "6": [],
-            "7": []
-        }
+        // "format": "{icon}",
+        // "format-icons": {
+        //     "1": "",
+        //     "2": "",
+        //     "3": "",
+        //     "4": "",
+        //     "5": "",
+        //     "6": "",
+        //     "7": "",
+        //     "urgent": "",
+        //     "focused": "",
+        //     "default": ""
+        // },
+        // "persistent_workspaces": {
+        //     "1": [],
+        //     "2": [],
+        //     "3": [],
+        //     "4": [],
+        //     "5": [],
+        //     "6": [],
+        //     "7": []
+        // }
     },
     "keyboard-state": {
         "numlock": true,
@@ -198,8 +198,9 @@
             "default": ""
         },
         "exec": "~/.config/waybar/scripts/dunst.sh",
-        "on-click": "dunstctl set-paused toggle",
-        "restart-interval": 1,
+        "on-click": "dunstctl set-paused toggle; pkill -SIGRTMIN+7 waybar",
+        "signal": 7,
+        "interval": 5,
         "tooltip": false
 
     },
