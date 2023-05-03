@@ -7,9 +7,9 @@ intel-media-driver \
 vulkan-intel \
 fprintd \
 imagemagick \
-power-profiles-daemon
+auto-cpufreq
 
-sudo systemctl enable power-profiles-daemon.service
+sudo systemctl enable auto-cpufreq.service
 
 # fixing brightness keys and screen freezes
 root=$(dirname $(realpath $0))

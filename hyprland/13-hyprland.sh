@@ -16,7 +16,6 @@ kitty \
 libsecret \
 light \
 noto-fonts \
-pacman-contrib \
 pamixer \
 pavucontrol \
 polkit-gnome \

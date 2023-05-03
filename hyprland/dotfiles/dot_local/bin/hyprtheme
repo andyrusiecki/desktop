@@ -40,6 +40,14 @@ fi
 # source wal colors
 source ~/.cache/wal/colors.sh
 
+# swaylock
+swaylockconfig=~/.config/swaylock/config
+
+sed -i '/ring-color=/s/.*/ring-color='$color1'/' $swaylockconfig
+sed -i '/key-hl-color=/s/.*/key-hl-color='$color2'/' $swaylockconfig
+sed -i '/text-color=/s/.*/text-color='$foreground'/' $swaylockconfig
+sed -i '/inside-color=/s/.*/inside-color='$background'/' $background
+
 # dunst
 dunstrc=~/.config/dunst/dunstrc
 
