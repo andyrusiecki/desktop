@@ -11,7 +11,7 @@ brightness_notify() {
 brightness() {
   case $1 in
     get)
-      light -G
+      echo "$(light -G)"
       ;;
 
     set)
@@ -30,7 +30,8 @@ brightness() {
       ;;
 
     *)
-      help
+      # TODO: help
+      echo "brightness usage not implemented"
       ;;
   esac
 }
@@ -50,7 +51,7 @@ volume_notify() {
 volume() {
   case $1 in
     get)
-      pamixer --get-volume
+      echo "$(pamixer --get-volume)"
       ;;
 
     set)
@@ -84,7 +85,23 @@ volume() {
       ;;
 
     *)
-      help
+      # TODO: help
+      echo "volume usage not implemented"
       ;;
   esac
 }
+
+case $1 in
+  brightness)
+    brightness ${@:1}
+    ;;
+
+  volume)
+    volume ${@:1}
+    ;;
+
+  *)
+    # TODO: help
+    echo "usage not implemented"
+    ;;
+  esac

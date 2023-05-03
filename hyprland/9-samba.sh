@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # samba (https://wiki.archlinux.org/title/Samba)
-
 sudo pacman -S --noconfirm --needed samba
 
 root=$(dirname $(realpath $0))

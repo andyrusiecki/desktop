@@ -1,0 +1,216 @@
+@import url("/home/andy/.cache/wal/colors-waybar.css");
+
+* {
+    font-family: JetBrainsMono Nerd Font, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+window#waybar {
+    background-color: alpha(@background, 0.8);
+    /*border-bottom: 3px solid rgba(100, 114, 125, 0.5);*/
+    color: @foreground;
+    transition-property: background-color;
+    transition-duration: .5s;
+    /*border-radius: 10px;*/
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+window#waybar.termite {
+    background-color: #3F3F3F;
+}
+
+window#waybar.chromium {
+    background-color: #000000;
+    border: none;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    margin: 0px;
+    color: alpha(@foreground, 0.3);
+    border: none;
+}
+
+#workspaces label {
+    padding: 0 5px;
+}
+
+#workspaces button.current_output {
+    color: @foreground;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+    color: @color1;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+    color: @color1;
+}
+
+#workspaces button.urgent {
+    color: @color2;
+}
+
+#mode {
+    border-bottom: 3px solid @foreground;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-dunst,
+#custom-media,
+#custom-playerctl,
+#custom-updates,
+#tray,
+#mode,
+#idle_inhibitor,
+#mpd {
+    background-color: transparent;
+    padding: 0 10px;
+}
+
+
+.modules-right widget:nth-child(3) {
+    color: @color1;
+}
+.modules-right widget:nth-child(4) {
+    color: @color2;
+}
+.modules-right widget:nth-child(5) {
+    color: @color3;
+}
+.modules-right widget:nth-child(6) {
+    color: @color4;
+}
+.modules-right widget:nth-child(7) {
+    color: @color5;
+}
+.modules-right widget:nth-child(8) {
+    color: @color6;
+}
+.modules-right widget:nth-child(9) {
+    color: @color1;
+}
+.modules-right widget:nth-child(10) {
+    color: @color2;
+}
+.modules-right widget:nth-child(11) {
+    color: @color3;
+}
+
+#clock {
+    color: @foreground;
+    margin: 0px;
+    padding: 0px;
+}
+
+#custom-power {
+    margin: 0 5px;
+}
+
+#workspaces {
+    margin: 0 4px;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 0;
+    /*border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;*/
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 0;
+}
+
+#battery.charging, #battery.plugged {
+    color: @foreground;
+}
+
+@keyframes blink {
+    to {
+        background-color: @foreground;
+        color: #000000;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: @foreground;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+label:focus {
+    background-color: #000000;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+#mpd {
+    background-color: #66cc99;
+    color: #2a5c45;
+}
+
+#mpd.disconnected {
+    background-color: #f53c3c;
+}
+
+#mpd.stopped {
+    background-color: #90b1b1;
+}
+
+#mpd.paused {
+    background-color: #51a37a;
+}
+
+#language {
+    background: #00b093;
+    color: #740864;
+    padding: 0 5px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state {
+    background: #97e1ad;
+    color: #000000;
+    padding: 0 0px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+    background: rgba(0, 0, 0, 0.2);
+}

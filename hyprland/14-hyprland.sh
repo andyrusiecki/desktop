@@ -40,12 +40,17 @@ wofi \
 xdg-desktop-portal-hyprland \
 xdg-user-dirs
 
+# add user to video group for light
+sudo usermod -aG video $USER
+
 root=$(dirname $(realpath $0))
 
 mkdir ~/.config
 cp -r $root/dotfiles/dot_config/dunst ~/.config/
 cp -r $root/dotfiles/dot_config/hypr ~/.config/
 cp -r $root/dotfiles/dot_config/kitty ~/.config/
+cp -r $root/dotfiles/dot_config/wal ~/.config/
+cp -r $root/dotfiles/dot_config/waybar ~/.config/
 
 mkdir -p ~/.local
 cp -r $root/dotfiles/dot_local/bin ~/.local/
