@@ -46,7 +46,9 @@ swaylockconfig=~/.config/swaylock/config
 sed -i '/ring-color=/s/.*/ring-color='$color1'/' $swaylockconfig
 sed -i '/key-hl-color=/s/.*/key-hl-color='$color2'/' $swaylockconfig
 sed -i '/text-color=/s/.*/text-color='$foreground'/' $swaylockconfig
-sed -i '/inside-color=/s/.*/inside-color='$background'/' $background
+sed -i '/inside-color=/s/.*/inside-color='$background'/' $swaylockconfig
+
+echo "Updated swaylock config."
 
 # dunst
 dunstrc=~/.config/dunst/dunstrc
@@ -56,7 +58,9 @@ sed -i '/foreground = /s/.*/foreground = "'$color7'"/' $dunstrc
 sed -i '/frame_color = /s/.*/frame_color = "'$color8'"/' $dunstrc
 
 killall -q dunst
-exec dunst
+dunst & disown
+
+echo "Updated dunst config and restarted process."
 
 # wofi
 for file in ~/.config/wofi/style.css ~/.config/wofi/style.menu.css; do
@@ -69,9 +73,9 @@ for file in ~/.config/wofi/style.css ~/.config/wofi/style.menu.css; do
     done
 done
 
+echo "Updated wofi config."
+
 # oomox themes
 oomox-cli ~/.cache/wal/colors-oomox -o pywal
 
-
-set_dunst_colors
-set_wofi_colors
+echo "Updated oomox themes."

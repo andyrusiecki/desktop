@@ -115,11 +115,11 @@
     "cpu": {
         "format": " {usage}%",
         "tooltip": false,
-        "on-click": "foot -T 'term_float' toolbox run -c sway-extras btop"
+        "on-click": "kitty -T 'term_float' toolbox run -c sway-extras btop"
     },
     "memory": {
         "format": " {}%",
-        "on-click": "foot -T 'term_float' toolbox run -c sway-extras btop"
+        "on-click": "kitty -T 'term_float' toolbox run -c sway-extras btop"
     },
     "temperature": {
         // "thermal-zone": 2,
@@ -160,7 +160,7 @@
         "format-disconnected": "⚠ Disconnected",
         "format-alt": "{ifname}: {ipaddr}/{cidr}",
         "tooltip-format": " {ifname} via {gwaddr}",
-        "on-click": "foot -T 'term_float' fish -c 'nmtui'"
+        "on-click": "kitty -T 'term_float' fish -c 'nmtui'"
     },
     "bluetooth": {
         "format": " {status}",
@@ -237,7 +237,7 @@
         },
         "interval": 3600,
         "exec": "~/.config/waybar/scripts/num_updates.sh",
-        "on-click": "foot -T 'term_float' /bin/bash -c '~/.config/waybar/scripts/run-update.sh'; pkill -SIGRTMIN+8 waybar",
+        "on-click": "kitty -T 'term_float' /bin/bash -c '~/.config/waybar/scripts/run_update.sh'; pkill -SIGRTMIN+8 waybar",
         "signal": 8
     }
 }

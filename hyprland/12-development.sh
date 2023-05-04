@@ -6,6 +6,7 @@ aws-cli-v2 \
 docker-compose \
 go \
 jq \
+k9s \
 kubectl \
 make \
 podman \

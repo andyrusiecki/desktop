@@ -1,6 +1,12 @@
 #!/bin/bash
 
-num_updates=$(flatpak remote-ls --updates | wc -l)
+#!/bin/sh
+
+arch=$(checkupdates | wc -l)
+aur=$(checkupdates-aur | wc -l)
+flatpak=$(flatpak remote-ls --updates | wc -l)
+
+num_updates=$((arch + aur + flatpak))
 alt=""
 text=""
 
