@@ -3,7 +3,7 @@
 #!/bin/sh
 
 arch=$(checkupdates | wc -l)
-aur=$(checkupdates-aur | wc -l)
+aur=$(pacman -Qm | aur vercmp | wc -l)
 flatpak=$(flatpak remote-ls --updates | wc -l)
 
 num_updates=$((arch + aur + flatpak))

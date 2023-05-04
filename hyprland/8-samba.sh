@@ -10,4 +10,4 @@ sudo cp $root/dotfiles/etc/samba/smb.conf /etc/samba/
 sudo systemctl enable smb.service
 
 # add to firewall rules
-sudo firewall-cmd --permanent --add-service={samba,samba-client,samba-dc} --zone=home
+sudo firewall-offline-cmd --add-service={samba,samba-client,samba-dc} --zone=home

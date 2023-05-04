@@ -239,5 +239,12 @@
         "exec": "~/.config/waybar/scripts/num_updates.sh",
         "on-click": "kitty -T 'term_float' /bin/bash -c '~/.config/waybar/scripts/run_update.sh'; pkill -SIGRTMIN+8 waybar",
         "signal": 8
+    },
+    "custom/weather" : {
+        "tooltip" : true,
+        "format" : "{}",
+        "interval" : 30,
+        "exec" : "~/.config/waybar/scripts/weather.py",
+        "return-type" : "json"
     }
 }

@@ -3,6 +3,7 @@
 paru -S --noconfirm --needed \
 adwaita-cursors \
 adwaita-icon-theme \
+aurutils \
 btop \
 dunst \
 file-roller \
