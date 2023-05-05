@@ -1,4 +1,4 @@
-[copr:copr.fedorainfracloud.org:atim:starship]
+[starship]
 name=Copr repo for starship owned by atim
 baseurl=https://download.copr.fedorainfracloud.org/results/atim/starship/fedora-$releasever-$basearch/
 type=rpm-md
