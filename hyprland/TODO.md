@@ -1,7 +1,0 @@
-- add weather module to waybar
-- other apps to apps script
-- import old wofi styles
-- turn off screen on lid switch
-- cut down on waybar modules
-- standard window rules
-- hook up other function key binds
