@@ -38,9 +38,13 @@ packages=(
   waybar-hyprland
   wlogout
   wofi
+  wttrbar
   xdg-desktop-portal-hyprland
   xdg-user-dirs
 )
+
+# needed for wttrbar package install
+cp -r $root/dotfiles/dot_cargo ~/.cargo
 
 paru -S --noconfirm --needed ${packages[@]}
 
@@ -55,10 +59,11 @@ mkdir ~/.config
 cp -r $root/dotfiles/dot_config/dunst ~/.config/
 cp -r $root/dotfiles/dot_config/hypr ~/.config/
 cp -r $root/dotfiles/dot_config/kitty ~/.config/
+cp -r $root/dotfiles/dot_config/swaylock ~/.config/
 cp -r $root/dotfiles/dot_config/wal ~/.config/
 cp -r $root/dotfiles/dot_config/waybar ~/.config/
 
-mkdir -p ~/.local
+mkdir ~/.local
 cp -r $root/dotfiles/dot_local/bin ~/.local/
 
 fish -c 'fish_add_path ~/.local/bin'

@@ -8,6 +8,8 @@ sudo mkdir -p $root/dotfiles/etc/samba
 sudo cp $root/dotfiles/etc/samba/smb.conf /etc/samba/
 
 sudo systemctl enable smb.service
+sudo systemctl enable nmb.service
+sudo systemctl enable avahi-daemon.service
 
 # add to firewall rules
-sudo firewall-offline-cmd --add-service={samba,samba-client,samba-dc} --zone=home
+#sudo firewall-offline-cmd --add-service={samba,samba-client,samba-dc} --zone=home

@@ -1,21 +1,24 @@
 #!/bin/bash
 
-paru -S --noconfirm --needed \
-mesa \
-#libva-intel-driver \
-intel-media-driver \
-vulkan-intel \
-fprintd \
-imagemagick \
-power-profiles-daemon
-# auto-cpufreq \
-# powertop
+packages=(
+  mesa
+  # libva-intel-driver
+  intel-media-driver
+  vulkan-intel
+  fprintd
+  imagemagick
+  # power-profiles-daemon
+  auto-cpufreq
+  powertop
+)
 
-# sudo systemctl enable auto-cpufreq.service
-sudo systemctl enable power-profiles-daemon.service
+paru -S --noconfirm --needed ${packages[@]}
 
-# sudo cp $root/dotfiles/etc/systemd/system/powertop.service /etc/systemd/system/
-# sudo systemctl enable powertop.service
+sudo systemctl enable auto-cpufreq.service
+# sudo systemctl enable power-profiles-daemon.service
+
+sudo cp $root/dotfiles/etc/systemd/system/powertop.service /etc/systemd/system/
+sudo systemctl enable powertop.service
 
 # fixing brightness keys and screen freezes
 root=$(dirname $(realpath $0))

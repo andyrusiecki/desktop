@@ -17,4 +17,4 @@ mkdir ~/.config
 cp -r $root/dotfiles/dot_config/containers ~/.config/
 cp -r $root/dotfiles/dot_docker ~/.docker
 
-sudo systemctl enable podman.socket
+systemctl enable --user podman.socket

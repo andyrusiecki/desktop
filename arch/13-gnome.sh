@@ -1,6 +1,7 @@
 #!/bin/bash
 
 packages=(
+  aurutils
   gdm
   gnome
   gnome-boxes
@@ -19,7 +20,6 @@ sudo systemctl enable gdm.service
 extensions=(
   AlphabeticalAppGrid@stuarthayhurst
   appindicatorsupport@rgcjonas.gmail.com
-  bluetooth-quick-connect@bjarosze.gmail.com
   blur-my-shell@aunetx
   mediacontrols@cliffniff.github.com
   notification-banner-reloaded@marcinjakubowski.github.com

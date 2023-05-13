@@ -27,5 +27,5 @@ flatpak_apps=(
   # us.zoom.Zoom
 )
 
-paru -S --noconfirm --needed ${packages[@]}
+paru -S --noconfirm --needed ${apps[@]}
 flatpak install --noninteractive ${flatpak_apps[@]}
