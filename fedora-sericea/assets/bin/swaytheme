@@ -25,7 +25,7 @@ if [ -z "$theme" ] && [ -z "$image" ]; then
     usage
 fi
 
-wallpaper_cache=$(realpath ~/.config/wallpaper)
+wallpaper_cache=$(realpath ~/.config/sway/wallpaper)
 
 if [ ! -z "$image" ]; then
     image=$(realpath $image)
@@ -40,29 +40,30 @@ fi
 # source wal colors
 source ~/.cache/wal/colors.sh
 
-set_dunst_colors() {
-    dunstrc=~/.config/dunst/dunstrc
 
-    # update dunst based on pywal colors.
-    sed -i '/background = /s/.*/background = "'$color0'"/' $dunstrc
-    sed -i '/foreground = /s/.*/foreground = "'$color7'"/' $dunstrc
-    sed -i '/frame_color = /s/.*/frame_color = "'$color8'"/' $dunstrc
+# swaylock
+swaylockconfig=~/.config/swaylock/config
 
-    # relaunch dunst
-    ~/.config/dunst/launch.sh
-}
+sed -i '/ring-color=/s/.*/ring-color='$color1'/' $swaylockconfig
+sed -i '/key-hl-color=/s/.*/key-hl-color='$color2'/' $swaylockconfig
+sed -i '/text-color=/s/.*/text-color='$foreground'/' $swaylockconfig
+sed -i '/inside-color=/s/.*/inside-color='$background'/' $swaylockconfig
 
-set_wofi_colors() {
-    for file in ~/.config/wofi/style.css ~/.config/wofi/style.menu.css; do
-        sed -i '/@define-color background /s/.*/@define-color background '$background';/' $file
-        sed -i '/@define-color foreground /s/.*/@define-color foreground '$foreground';/' $file
+echo "Updated swaylock config."
 
-        for i in {0..15}; do
-            c="color$i"
-            sed -i '/@define-color '$c' /s/.*/@define-color '$c' '${!c}';/' $file
-        done
-    done
-}
+# dunst
+dunstrc=~/.config/dunst/dunstrc
 
-set_dunst_colors
-set_wofi_colors
+sed -i '/background = /s/.*/background = "'$color0'"/' $dunstrc
+sed -i '/foreground = /s/.*/foreground = "'$color7'"/' $dunstrc
+sed -i '/frame_color = /s/.*/frame_color = "'$color8'"/' $dunstrc
+
+killall -q dunst
+dunst & disown
+
+echo "Updated dunst config and restarted process."
+
+# oomox themes
+flatpak run --command=oomox-cli com.github.themix_project.Oomox ~/.cache/wal/colors-oomox -o pywal
+
+echo "Updated oomox themes."
