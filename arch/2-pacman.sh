@@ -11,7 +11,7 @@ sudo sed -i '/\[multilib\]/,+1 s/#//' /etc/pacman.conf
 sudo sed -i '/Color/s/^#//g' /etc/pacman.conf
 
 # Install cache and mirrorlist utils
-sudo pacman -S --noconfirm --needed pacman-contrib reflector
+sudo pacman -Sy --noconfirm --needed pacman-contrib reflector
 
 # enable paccache timer
 # - runs every week
