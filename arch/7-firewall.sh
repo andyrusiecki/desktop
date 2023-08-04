@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# firewall (https://wiki.archlinux.org/title/Firewalld)
-sudo pacman -S --noconfirm --needed firewalld
+# ufw (https://wiki.archlinux.org/title/Uncomplicated_Firewall)
+sudo pacman -S --noconfirm --needed \
+gufw \
+ufw
 
-sudo systemctl enable firewalld.service
+sudo systemctl enable ufw.service

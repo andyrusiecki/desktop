@@ -7,5 +7,5 @@ git clone https://aur.archlinux.org/paru-bin.git $tmp_dir/paru
 rm -rf $tmp_dir
 
 root=$(dirname $(realpath $0))
-mkdir ~/.config
+mkdir -p ~/.config
 cp -r $root/dotfiles/dot_config/paru ~/.config/

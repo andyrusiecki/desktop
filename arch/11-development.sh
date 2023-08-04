@@ -13,7 +13,7 @@ podman \
 podman-docker
 
 root=$(dirname $(realpath $0))
-mkdir ~/.config
+mkdir -p ~/.config
 cp -r $root/dotfiles/dot_config/containers ~/.config/
 cp -r $root/dotfiles/dot_docker ~/.docker
 

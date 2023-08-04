@@ -3,7 +3,7 @@
 sudo pacman -S --noconfirm --needed fish starship
 
 root=$(dirname $(realpath $0))
-mkdir ~/.config
+mkdir -p ~/.config
 cp -r $root/dotfiles/dot_config/fish ~/.config/
 cp -r $root/dotfiles/dot_config/starship.toml ~/.config/
 

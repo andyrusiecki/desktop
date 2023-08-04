@@ -11,5 +11,3 @@ sudo systemctl enable smb.service
 sudo systemctl enable nmb.service
 sudo systemctl enable avahi-daemon.service
 
-# add to firewall rules
-#sudo firewall-offline-cmd --add-service={samba,samba-client,samba-dc} --zone=home
