@@ -11,12 +11,11 @@ exec $root/6-bluetooth.sh
 exec $root/7-firewall.sh
 exec $root/8-samba.sh
 exec $root/9-printing.sh
-exec $root/10-display-manager.sh
-exec $root/11-shell.sh
-exec $root/12-development.sh
+exec $root/10-shell.sh
+exec $root/11-development.sh
+exec $root/12-flatpak.sh
 exec $root/13-hyprland.sh
-exec $root/14-apps.sh
-exec $root/15-device-framework.sh
-exec $root/16-snapshot.sh
+exec $root/14-device-framework.sh
+exec $root/15-snapshot.sh
 
 echo -e "\nFull Install Complete!!!\n\n"

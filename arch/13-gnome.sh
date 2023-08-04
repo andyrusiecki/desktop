@@ -21,10 +21,11 @@ extensions=(
   AlphabeticalAppGrid@stuarthayhurst
   appindicatorsupport@rgcjonas.gmail.com
   blur-my-shell@aunetx
+  caffeine@patapon.info
   mediacontrols@cliffniff.github.com
-  notification-banner-reloaded@marcinjakubowski.github.com
   nightthemeswitcher@romainvigier.fr
   no-overview@fthx
+  notification-banner-reloaded@marcinjakubowski.github.com
   pip-on-top@rafostar.github.com
   user-theme@gnome-shell-extensions.gcampax.github.com
   Vitals@CoreCoding.com

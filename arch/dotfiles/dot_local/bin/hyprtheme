@@ -31,6 +31,8 @@ if [ ! -z "$image" ]; then
     image=$(realpath $image)
     wal -i $image
     cp $image $wallpaper_cache
+    killall -q swaybg
+    swaybg -m fill -i $wallpaper_cache & disown
 fi
 
 if [ ! -z "$theme" ]; then
@@ -49,6 +51,12 @@ sed -i '/text-color=/s/.*/text-color='$foreground'/' $swaylockconfig
 sed -i '/inside-color=/s/.*/inside-color='$background'/' $swaylockconfig
 
 echo "Updated swaylock config."
+
+# waybar
+killall -q waybar
+waybar & disown
+
+echo "Restarted waybar."
 
 # dunst
 dunstrc=~/.config/dunst/dunstrc
@@ -76,6 +84,6 @@ done
 echo "Updated wofi config."
 
 # oomox themes
-oomox-cli ~/.cache/wal/colors-oomox -o pywal
+flatpak run --command=oomox-cli com.github.themix_project.Oomox ~/.cache/wal/colors-oomox -o pywal
 
 echo "Updated oomox themes."

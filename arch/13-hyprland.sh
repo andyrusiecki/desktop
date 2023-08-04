@@ -70,4 +70,5 @@ fish -c 'fish_add_path ~/.local/bin'
 
 # generate initial themes
 wal -i ~/.config/hypr/wallpaper
-oomox-cli ~/.cache/wal/colors-oomox -o pywal
+flatpak run --command=oomox-cli com.github.themix_project.Oomox ~/.cache/wal/colors-oomox -o pywal
+
