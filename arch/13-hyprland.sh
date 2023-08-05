@@ -23,19 +23,18 @@ packages=(
   python-pywal
   qt5-wayland
   qt6-wayland
-  sddm-git
+  sddm
   sshfs
   slurp
   swappy
   swaybg
   swaylock-effects
-  themix-full-git
   thunar
   thunar-archive-plugin
   thunar-volman
   ttf-ms-fonts
   ttf-roboto-mono-nerd
-  waybar-hyprland
+  waybar
   wlogout
   wofi
   wttrbar
