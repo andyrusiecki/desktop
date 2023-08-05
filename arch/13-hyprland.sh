@@ -1,5 +1,7 @@
 #!/bin/bash
 
+root=$(dirname $(realpath $0))
+
 packages=(
   adwaita-cursors
   adwaita-icon-theme
@@ -52,9 +54,7 @@ sudo systemctl enable sddm.service
 # add user to video group for light
 sudo usermod -aG video $USER
 
-root=$(dirname $(realpath $0))
-
-mkdir ~/.config
+mkdir -p ~/.config
 cp -r $root/dotfiles/dot_config/dunst ~/.config/
 cp -r $root/dotfiles/dot_config/hypr ~/.config/
 cp -r $root/dotfiles/dot_config/kitty ~/.config/
@@ -62,7 +62,7 @@ cp -r $root/dotfiles/dot_config/swaylock ~/.config/
 cp -r $root/dotfiles/dot_config/wal ~/.config/
 cp -r $root/dotfiles/dot_config/waybar ~/.config/
 
-mkdir ~/.local
+mkdir -p ~/.local
 cp -r $root/dotfiles/dot_local/bin ~/.local/
 
 fish -c 'fish_add_path ~/.local/bin'
