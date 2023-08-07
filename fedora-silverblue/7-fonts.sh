@@ -1,9 +1,21 @@
 #!/bin/bash
 
-mkdir -p ~/.local/share/fonts/
+version="3.0.2"
+fonts=(
+  FiraMono
+  Meslo
+  Noto
+  RobotoMono
+  SourceCodePro
+)
 
-# Roboto Mono Nerd Font
+mkdir -p ~/.local/share/fonts/
 tmp_dir=$(mktemp -d)
-curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.0/RobotoMono.zip --output $tmp_dir/RobotoMono.zip
-unzip $tmp_dir/RobotoMono.zip -d ~/.local/share/fonts/RobotoMono/
+
+for font in ${fonts[@]}
+do
+  curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v$version/$font.zip --output $tmp_dir/$font.zip
+  unzip $tmp_dir/$font.zip -d ~/.local/share/fonts/$font/
+done
+
 rm -rf $tmp_dir

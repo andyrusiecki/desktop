@@ -1,9 +1,6 @@
 #!/bin/bash
 
-
-# Hide built-in firefox (we're using flatpak anyway)
 mkdir -p ~/.local/share/applications/
-sed '2iHidden=true' /usr/share/applications/firefox.desktop > ~/.local/share/applications/firefox.desktop
 
 # Enable wayland
 # vs code

@@ -9,4 +9,4 @@ sudo rpm-ostree upgrade
 sudo cp $root/dotfiles/etc/yum.repos.d/* /etc/yum.repos.d/
 
 # add layers
-sudo rpm-ostree install --assumeyes code fish starship
+sudo rpm-ostree install --assumeyes fish starship tlp distrobox syncthing

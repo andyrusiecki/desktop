@@ -4,12 +4,12 @@
 extensions=(
   AlphabeticalAppGrid@stuarthayhurst
   appindicatorsupport@rgcjonas.gmail.com
-  bluetooth-quick-connect@bjarosze.gmail.com
   blur-my-shell@aunetx
+  caffeine@patapon.info
   mediacontrols@cliffniff.github.com
-  notification-banner-reloaded@marcinjakubowski.github.com
   nightthemeswitcher@romainvigier.fr
   no-overview@fthx
+  notification-banner-reloaded@marcinjakubowski.github.com
   pip-on-top@rafostar.github.com
   user-theme@gnome-shell-extensions.gcampax.github.com
   Vitals@CoreCoding.com
@@ -34,6 +34,7 @@ gsettings set org.gnome.desktop.interface clock-show-weekday true
 gsettings set org.gnome.desktop.interface font-antialiasing "rgba"
 gsettings set org.gnome.desktop.interface font-hinting "slight"
 gsettings set org.gnome.desktop.interface gtk-theme "adw-gtk3"
+gsettings set org.gnome.desktop.interface color-scheme 'default'
 
 gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1 "['<SHIFT><SUPER>1']"
 gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2 "['<SHIFT><SUPER>2']"
@@ -59,4 +60,4 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 
 gsettings set org.gnome.system.location enabled true
 
-gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'com.google.Chrome.desktop', 'com.spotify.Client.desktop', 'com.valvesoftware.Steam.desktop', 'com.slack.Slack.desktop', 'net.cozic.joplin_desktop.desktop', 'code.desktop', 'org.gnome.Terminal.desktop']"
+gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'com.google.Chrome.desktop', 'com.spotify.Client.desktop', 'com.valvesoftware.Steam.desktop', 'com.slack.Slack.desktop', 'md.obsidian.Obsidian.desktop', 'com.visualstudio.code.desktop', 'org.gnome.Terminal.desktop']"
