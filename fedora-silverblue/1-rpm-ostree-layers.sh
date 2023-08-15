@@ -3,10 +3,10 @@
 root=$(dirname $(realpath $0))
 
 # upgrade base image
-sudo rpm-ostree upgrade
+rpm-ostree upgrade
 
-# add starship and code repos
+# add starship repo
 sudo cp $root/dotfiles/etc/yum.repos.d/* /etc/yum.repos.d/
 
 # add layers
-sudo rpm-ostree install --assumeyes fish starship tlp distrobox syncthing
+rpm-ostree install --assumeyes fish starship tlp distrobox syncthing

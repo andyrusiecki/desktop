@@ -1,16 +1,48 @@
 ignore-empty-password
-screenshots
+hide-keyboard-layout
+disable-caps-lock-text
+
 clock
+timestr=%I:%M %p
+datestr=%a, %B %e
+
+screenshots
+
+fade-in=0.2
+
+effect-blur=20x2
+effect-scale=0.3
+
 indicator
-indicator-radius=100
-indicator-thickness=7
-effect-blur=7x5
-effect-vignette=0.5:0.5
-ring-color=$color1
+indicator-radius=110
+indicator-thickness=4
+
+# Colors
 key-hl-color=$color2
-line-color=00000000
+# bs-hl-color=wrong-color
+separator-color=#00000000
+
+# Base
 text-color=$foreground
 inside-color=$background
-separator-color=00000000
-grace=2
-fade-in=0.2
+ring-color=$color1
+line-color=#00000000
+
+
+# Clear
+#text-clear-color=clear-color
+inside-clear-color=$background
+#ring-clear-color=clear-color
+line-clear-color=#00000000
+
+# Verify
+text-ver-color=#00000000
+inside-ver-color=$background
+ring-ver-color=$color1
+line-ver-color=#00000000
+
+# Wrong
+#text-wrong-color=wrong-color
+inside-wrong-color=$background
+#ring-wrong-color=wrong-color
+line-wrong-color=#00000000

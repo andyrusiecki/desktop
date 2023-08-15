@@ -35,9 +35,10 @@
     ],
     // Modules configuration
     "wlr/workspaces": {
-        "disable-scroll": true,
         "on-click": "activate",
         "all-outputs": true,
+        "on-scroll-up": "hyprctl dispatch workspace e-1",
+        "on-scroll-down": "hyprctl dispatch workspace e+1"
         // "format": "{icon}",
         // "format-icons": {
         //     "1": "",
@@ -104,7 +105,7 @@
         }
     },
     "tray": {
-        // "icon-size": 21,
+        "icon-size": 21,
         "spacing": 10
     },
     "clock": {
@@ -240,11 +241,11 @@
         "on-click": "kitty -T 'term_float' /bin/bash -c '~/.config/waybar/scripts/run_update.sh'; pkill -SIGRTMIN+8 waybar",
         "signal": 8
     },
-    "custom/weather" : {
-        "tooltip" : true,
-        "format" : "{}",
-        "interval" : 30,
-        "exec" : "~/.config/waybar/scripts/weather.py",
-        "return-type" : "json"
-    }
+    "custom/weather": {
+        "format": "{} °",
+        "tooltip": true,
+        "interval": 3600,
+        "exec": "wttrbar",
+        "return-type": "json"
+    },
 }

@@ -9,7 +9,7 @@ flatpak_apps=(
   com.github.tchx84.Flatseal
   com.github.themix_project.Oomox
   com.google.Chrome
-  com.mattjakeman.ExtensionManager
+  # com.mattjakeman.ExtensionManager
   com.slack.Slack
   com.spotify.Client
   com.valvesoftware.Steam
@@ -28,3 +28,6 @@ flatpak_apps=(
 
 paru -S --noconfirm --needed flatpak
 flatpak install --noninteractive ${flatpak_apps[@]}
+
+# flatpak settings
+flatpak override org.mozilla.firefox --env=MOZ_ENABLE_WAYLAND=1

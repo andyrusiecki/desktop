@@ -5,19 +5,20 @@ root=$(dirname $(realpath $0))
 packages=(
   adwaita-cursors
   adwaita-icon-theme
+  adwaita-qt5
+  adwaita-qt6
+  adw-gtk3
   aurutils
   btop
   dunst
-  file-roller
-  gnome-keyring
   grim
   gvfs
-  gvfs-google
   gvfs-smb
   hyprland
   kitty
-  libsecret
   light
+  nautilus
+  nerd-fonts-meta
   noto-fonts
   pamixer
   pavucontrol
@@ -26,20 +27,14 @@ packages=(
   qt5-wayland
   qt6-wayland
   sddm
-  sshfs
   slurp
-  swappy
   swaybg
   swaylock-effects
-  thunar
-  thunar-archive-plugin
-  thunar-volman
   ttf-ms-fonts
-  ttf-roboto-mono-nerd
   waybar
-  wlogout
   wofi
   wttrbar
+  xdg-desktop-portal-gtk
   xdg-desktop-portal-hyprland
   xdg-user-dirs
 )
@@ -67,7 +62,11 @@ cp -r $root/dotfiles/dot_local/bin ~/.local/
 
 fish -c 'fish_add_path ~/.local/bin'
 
+# hide gtk close buttons
+gsettings set org.gnome.desktop.wm.preferences button-layout :
+
 # generate initial themes
 wal -i ~/.config/hypr/wallpaper
+flatpak override com.github.themix_project.Oomox --filesystem=~/.cache/wal
 flatpak run --command=oomox-cli com.github.themix_project.Oomox ~/.cache/wal/colors-oomox -o pywal
 

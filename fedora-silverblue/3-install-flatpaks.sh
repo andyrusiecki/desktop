@@ -7,7 +7,6 @@ flatpak_apps=(
   com.github.d4nj1.tlpui
   com.github.marhkb.Pods
   com.github.tchx84.Flatseal
-  com.github.themix_project.Oomox
   com.google.Chrome
   com.mattjakeman.ExtensionManager
   com.slack.Slack
