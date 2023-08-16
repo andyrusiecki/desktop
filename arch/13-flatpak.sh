@@ -30,4 +30,9 @@ paru -S --noconfirm --needed flatpak
 flatpak install --noninteractive ${flatpak_apps[@]}
 
 # flatpak settings
-flatpak override org.mozilla.firefox --env=MOZ_ENABLE_WAYLAND=1
+sudo flatpak override org.mozilla.firefox --env=MOZ_ENABLE_WAYLAND=1
+
+# generate initial themes with Oomox
+wal -i ~/.config/hypr/wallpaper
+sudo flatpak override com.github.themix_project.Oomox --filesystem=~/.cache/wal
+flatpak run --command=oomox-cli com.github.themix_project.Oomox ~/.cache/wal/colors-oomox -o pywal

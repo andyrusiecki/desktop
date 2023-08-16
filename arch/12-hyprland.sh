@@ -34,6 +34,7 @@ packages=(
   waybar
   wofi
   wttrbar
+  xorg-xwayland
   xdg-desktop-portal-gtk
   xdg-desktop-portal-hyprland
   xdg-user-dirs
@@ -65,8 +66,4 @@ fish -c 'fish_add_path ~/.local/bin'
 # hide gtk close buttons
 gsettings set org.gnome.desktop.wm.preferences button-layout :
 
-# generate initial themes
-wal -i ~/.config/hypr/wallpaper
-flatpak override com.github.themix_project.Oomox --filesystem=~/.cache/wal
-flatpak run --command=oomox-cli com.github.themix_project.Oomox ~/.cache/wal/colors-oomox -o pywal
 
