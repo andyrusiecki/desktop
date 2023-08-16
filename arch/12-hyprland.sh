@@ -11,11 +11,13 @@ packages=(
   aurutils
   btop
   dunst
+  gnome-keyring
   grim
   gvfs
   gvfs-smb
   hyprland
   kitty
+  libnotify
   light
   nautilus
   nerd-fonts-meta
@@ -29,6 +31,7 @@ packages=(
   sddm
   slurp
   swaybg
+  swayidle
   swaylock-effects
   ttf-ms-fonts
   waybar

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "not sure how necessary this file is for client access"
+exit
+
 # samba (https://wiki.archlinux.org/title/Samba)
 sudo pacman -S --noconfirm --needed samba
 
