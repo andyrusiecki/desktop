@@ -115,7 +115,7 @@ echo -ne "
 
 pacman -S --noconfirm --needed snapper snap-pac
 mkdir -p /etc/snapper/configs/
-cp $root/dotfiles/etc/snapper/configs/* /etc/snapper/configs/
+cp $root/dotfiles/etc/snapper/configs/root /etc/snapper/configs/
 
 mkdir -p /etc/conf.d/
 cp $root/dotfiles/etc/conf.d/snapper /etc/conf.d/
@@ -159,7 +159,7 @@ pkgs=(
   bluez-utils
 
   # network discovery
-  avahi-daemon
+  avahi
 
   # printing
   cups
