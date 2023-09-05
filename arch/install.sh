@@ -2,17 +2,8 @@
 
 root=$(dirname $(realpath $0))
 
-while getopts 'hu:d:p:' opt; do
+while getopts 'hd:p:' opt; do
   case "$opt" in
-    u)
-      arg="$OPTARG"
-      if ! id -u $arg > /dev/null 2>&1; then
-        echo "User $arg does not exist!"
-        exit 0
-      fi
-      user="$arg"
-      ;;
-
     d)
       arg="$OPTARG"
       case "$arg" in
@@ -43,7 +34,6 @@ while getopts 'hu:d:p:' opt; do
 
     ?|h)
       echo "Usage: $(basename $0) [-u user] [-d device] [-p profile]"
-      echo -e "-u <user>\t user to run install script as"
       echo -e "-d <device>\t runs additional tasks based on the device (available devices: framework, vm)"
       echo -e "-p <profile>\t runs additional tasks based on the profile (available profiles: gnome, hyprland)\n"
       exit 1
@@ -51,14 +41,9 @@ while getopts 'hu:d:p:' opt; do
   esac
 done
 
-if [[ "$(id -u)" != "0" ]]; then
-    echo  "This script must be run under the 'root' user!"
+if [[ "$(id -u)" = "0" ]]; then
+    echo  "This script must be run under a normal user!"
     exit 0
-fi
-
-if test -z "$user"; then
-  echo "User option (-u <user>) is required!"
-  exit 0
 fi
 
 if test -z "$device"; then
@@ -72,8 +57,8 @@ if test -z "$profile"; then
 fi
 
 # ensure user directories exist
-sudo -u $user mkdir -p /home/$user/.config
-sudo -u $user mkdir -p /home/$user/.local/bin
+mkdir -p ~/.config
+mkdir -p ~/.local/bin
 
 echo -ne "
 ======== 1. pacman ========
@@ -81,47 +66,47 @@ echo -ne "
 
 # Update pacman config (https://man.archlinux.org/man/pacman.conf.5)
 # - enabling parallel downloads (defaults to 5)
-sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
+sudo sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf
 
 # - enabling multilib repo
-sed -i '/\[multilib\]/,+1 s/#//' /etc/pacman.conf
+sudo sed -i '/\[multilib\]/,+1 s/#//' /etc/pacman.conf
 
 # - enabling color output
-sed -i '/Color/s/^#//g' /etc/pacman.conf
+sudo sed -i '/Color/s/^#//g' /etc/pacman.conf
 
 # Update arch keyring
-pacman -Sy --noconfirm archlinux-keyring
+sudo pacman -Sy --noconfirm archlinux-keyring
 
 # Install cache and mirrorlist utils
-pacman -Sy --noconfirm --needed pacman-contrib reflector
+sudo pacman -Sy --noconfirm --needed pacman-contrib reflector
 
 # enable paccache timer
 # - runs every week
 # - deletes all cached versions of installed and uninstalled packages, except for the most recent three
-systemctl enable paccache.timer
+sudo systemctl enable paccache.timer
 
 # Update pacman mirrorlist (https://wiki.archlinux.org/title/Reflector)
-reflector --age 48 --latest 20 --fastest 5 --sort rate --protocol https --country US --save /etc/pacman.d/mirrorlist
+sudo reflector --age 48 --latest 20 --fastest 5 --sort rate --protocol https --country US --save /etc/pacman.d/mirrorlist
 
 # enable reflector service
-mkdir -p $root/dotfiles/etc/xdg/reflector
-cp $root/dotfiles/etc/xdg/reflector/reflector.conf /etc/xdg/reflector/
+sudo mkdir -p /etc/xdg/reflector
+sudo cp $root/dotfiles/etc/xdg/reflector/reflector.conf /etc/xdg/reflector/
 
-systemctl enable reflector.service
+sudo systemctl enable reflector.service
 
 echo -ne "
 ======== 2. snapper ========
 "
 
-pacman -S --noconfirm --needed snapper snap-pac
-mkdir -p /etc/snapper/configs/
-cp $root/dotfiles/etc/snapper/configs/root /etc/snapper/configs/
+sudo pacman -S --noconfirm --needed snapper snap-pac
+sudo mkdir -p /etc/snapper/configs/
+sudo cp $root/dotfiles/etc/snapper/configs/root /etc/snapper/configs/
 
-mkdir -p /etc/conf.d/
-cp $root/dotfiles/etc/conf.d/snapper /etc/conf.d/
+sudo mkdir -p /etc/conf.d/
+sudo cp $root/dotfiles/etc/conf.d/snapper /etc/conf.d/
 
-systemctl enable snapper-cleanup.timer
-systemctl enable snapper-timeline.timer
+sudo systemctl enable snapper-cleanup.timer
+sudo systemctl enable snapper-timeline.timer
 
 echo -ne "
 ======== 3. base dependencies and services ========
@@ -165,64 +150,65 @@ pkgs=(
   cups
 )
 
-pacman -S --noconfirm --needed ${pkgs[@]}
+sudo pacman -S --noconfirm --needed ${pkgs[@]}
 
-systemctl enable bluetooth.service
-systemctl enable ufw.service
-systemctl enable avahi-daemon.service
-systemctl enable cups.service
+sudo systemctl enable bluetooth.service
+sudo systemctl enable ufw.service
+sudo systemctl enable avahi-daemon.service
+sudo systemctl enable cups.service
 
-sudo -u $user systemctl enable --user pipewire-pulse.service
+systemctl enable --user pipewire-pulse.service
 
 echo -ne "
 ======== 4. plymouth and systemd-boot ========
 "
 
-pacman -S --noconfirm --needed plymouth
+sudo pacman -S --noconfirm --needed plymouth
 
 # add plymouth hook after "base udev"
-sed -i 's/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf
-mkinitcpio -P
+sudo sed -i 's/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf
+sudo mkinitcpio -P
 
 # rename boot entries
-mv /boot/loader/entries/*_linux.conf /boot/loader/entries/linux.conf
-mv /boot/loader/entries/*_linux-fallback.conf /boot/loader/entries/linux-fallback.conf
+sudo mv /boot/loader/entries/*_linux.conf /boot/loader/entries/linux.conf
+sudo mv /boot/loader/entries/*_linux-fallback.conf /boot/loader/entries/linux-fallback.conf
 
-mv /boot/loader/entries/*_linux-lts.conf /boot/loader/entries/linux-lts.conf
-mv /boot/loader/entries/*_linux-lts-fallback.conf /boot/loader/entries/linux-lts-fallback.conf
+sudo mv /boot/loader/entries/*_linux-lts.conf /boot/loader/entries/linux-lts.conf
+sudo mv /boot/loader/entries/*_linux-lts-fallback.conf /boot/loader/entries/linux-lts-fallback.conf
 
 # allow plymouth splash in boot entries
-sed -i 's/^options .*$/& quiet splash/' /boot/loader/entries/linux.conf
-sed -i 's/^options .*$/& quiet splash/' /boot/loader/entries/linux-lts.conf
+sudo sed -i 's/^options .*$/& quiet splash/' /boot/loader/entries/linux.conf
+sudo sed -i 's/^options .*$/& quiet splash/' /boot/loader/entries/linux-lts.conf
 
 # disable plymouth for fallback entries
-sed -i 's/^options .*$/& plymouth.enable=0 disablehooks=plymouth/' /boot/loader/entries/linux-fallback.conf
-sed -i 's/^options .*$/& plymouth.enable=0 disablehooks=plymouth/' /boot/loader/entries/linux-lts-fallback.conf
+sudo sed -i 's/^options .*$/& plymouth.enable=0 disablehooks=plymouth/' /boot/loader/entries/linux-fallback.conf
+sudo sed -i 's/^options .*$/& plymouth.enable=0 disablehooks=plymouth/' /boot/loader/entries/linux-lts-fallback.conf
 
 echo -ne "
 ======== 5. paru ========
 "
 
 # Install paru (https://github.com/Morganamilo/paru)
-sudo -u $user git clone https://aur.archlinux.org/paru-bin.git /home/$user/paru-bin
-sudo -u $user bash -c "cd /home/$user/paru-bin && makepkg --noconfirm --needed -si"
-sudo -u $user rm -rf /home/$user/paru-bin
+tmp_dir=$(mktemp -d)
+git clone https://aur.archlinux.org/paru-bin.git $tmp_dir/paru
+(cd $tmp_dir/paru && makepkg --noconfirm --needed -si)
+rm -rf $tmp_dir
 
-sudo -u $user cp -r $root/dotfiles/dot_config/paru /home/$user/.config/
+cp -r $root/dotfiles/dot_config/paru ~/.config/
 
 echo -ne "
 ======== 6. shell ========
 "
 
-pacman -S --noconfirm --needed fish starship
+sudo pacman -S --noconfirm --needed fish starship
 
-sudo -u $user cp -r $root/dotfiles/dot_config/fish /home/$user/.config/
-sudo -u $user cp -r $root/dotfiles/dot_config/starship.toml /home/$user/.config/
+cp -r $root/dotfiles/dot_config/fish ~/.config/
+cp -r $root/dotfiles/dot_config/starship.toml ~/.config/
 
-sudo -u $user fish -c 'fish_add_path /home/$user/.local/bin'
+fish -c 'fish_add_path ~/.local/bin'
 
 # Change default shell to fish
-chsh -s $(command -v fish) $user
+sudo chsh -s $(command -v fish) $USER
 
 echo -ne "
 ======== 7. development ========
@@ -241,16 +227,16 @@ pkgs=(
   podman-docker
 )
 
-pacman -S --noconfirm --needed ${pkgs[@]}
+sudo pacman -S --noconfirm --needed ${pkgs[@]}
 
 # install aws ecr helper from AUR
 paru -S --noconfirm --needed amazon-ecr-credential-helper
 
-sudo -u $user cp -r $root/dotfiles/dot_config/containers /home/$user/.config/
-sudo -u $user cp -r $root/dotfiles/dot_docker /home/$user/.docker
-sudo -u $user cp -r $root/dotfiles/dot_cargo /home/$user/.cargo
+cp -r $root/dotfiles/dot_config/containers ~/.config/
+cp -r $root/dotfiles/dot_docker ~/.docker
+cp -r $root/dotfiles/dot_cargo ~/.cargo
 
-sudo -u $user systemctl enable --user podman.socket
+systemctl enable --user podman.socket
 
 echo -ne "
 ======== 8. profiles ========
@@ -267,7 +253,7 @@ if [ "$profile" = "gnome" ] || [ "$profile" = "all" ]; then
     xdg-desktop-portal-gnome
   )
 
-  pacman -S --noconfirm --needed ${packages[@]}
+  sudo pacman -S --noconfirm --needed ${packages[@]}
 
   aur_pkgs=(
     aurutils
@@ -276,7 +262,7 @@ if [ "$profile" = "gnome" ] || [ "$profile" = "all" ]; then
 
   paru -S --noconfirm --needed ${packages[@]}
 
-  systemctl enable gdm.service
+  sudo systemctl enable gdm.service
 
   # gnome extensions
   extensions=(
@@ -300,42 +286,42 @@ if [ "$profile" = "gnome" ] || [ "$profile" = "all" ]; then
     info_json=$(curl -sS "https://extensions.gnome.org/extension-info/?uuid=$uuid&shell_version=$shell_version")
     download_url=$(echo $info_json | jq ".download_url" --raw-output)
 
-    sudo -u $user gnome-extensions install "https://extensions.gnome.org$download_url"
-    sudo -u $user gnome-extensions enable $uuid
+    gnome-extensions install "https://extensions.gnome.org$download_url"
+    gnome-extensions enable $uuid
   done
 
   # gnome dconf settings
-  sudo -u $user gsettings set org.gnome.desktop.datetime automatic-timezone true
+  gsettings set org.gnome.desktop.datetime automatic-timezone true
 
-  sudo -u $user gsettings set org.gnome.desktop.interface clock-format "12h"
-  sudo -u $user gsettings set org.gnome.desktop.interface clock-show-weekday true
-  sudo -u $user gsettings set org.gnome.desktop.interface font-antialiasing "rgba"
-  sudo -u $user gsettings set org.gnome.desktop.interface font-hinting "slight"
-  sudo -u $user gsettings set org.gnome.desktop.interface gtk-theme "adw-gtk3"
+  gsettings set org.gnome.desktop.interface clock-format "12h"
+  gsettings set org.gnome.desktop.interface clock-show-weekday true
+  gsettings set org.gnome.desktop.interface font-antialiasing "rgba"
+  gsettings set org.gnome.desktop.interface font-hinting "slight"
+  gsettings set org.gnome.desktop.interface gtk-theme "adw-gtk3"
 
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1 "['<SHIFT><SUPER>1']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2 "['<SHIFT><SUPER>2']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-3 "['<SHIFT><SUPER>3']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<SHIFT><SUPER>4']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-5 "['<SHIFT><SUPER>5']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-6 "['<SHIFT><SUPER>6']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-7 "['<SHIFT><SUPER>7']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-8 "['<SHIFT><SUPER>8']"
+  # gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-1 "['<SHIFT><SUPER>1']"
+  # gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2 "['<SHIFT><SUPER>2']"
+  # gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-3 "['<SHIFT><SUPER>3']"
+  # gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<SHIFT><SUPER>4']"
+  # gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-5 "['<SHIFT><SUPER>5']"
+  # gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-6 "['<SHIFT><SUPER>6']"
+  # gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-7 "['<SHIFT><SUPER>7']"
+  # gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-8 "['<SHIFT><SUPER>8']"
 
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-1 "['<SUPER>1']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<SUPER>2']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<SUPER>3']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<SUPER>4']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-5 "['<SUPER>5']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-6 "['<SUPER>6']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-7 "['<SUPER>7']"
-  # sudo -u $user gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-8 "['<SUPER>8']"
+  # gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-1 "['<SUPER>1']"
+  # gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<SUPER>2']"
+  # gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<SUPER>3']"
+  # gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<SUPER>4']"
+  # gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-5 "['<SUPER>5']"
+  # gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-6 "['<SUPER>6']"
+  # gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-7 "['<SUPER>7']"
+  # gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-8 "['<SUPER>8']"
 
-  sudo -u $user gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+  gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
-  sudo -u $user gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
+  gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 
-  sudo -u $user gsettings set org.gnome.system.location enabled true
+  gsettings set org.gnome.system.location enabled true
 fi
 
 if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
@@ -378,7 +364,7 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
     xdg-user-dirs
   )
 
-  pacman -S --noconfirm --needed ${pkgs[@]}
+  sudo pacman -S --noconfirm --needed ${pkgs[@]}
 
   aur_pkgs=(
     adwaita-qt5
@@ -395,24 +381,26 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
 
   # install sddm if we don't already have gdm from gnome
   if [ "$profile" = "hyprland" ]; then
-    pacman -S --noconfirm --needed sddm
-    systemctl enable sddm.service
+    sudo pacman -S --noconfirm --needed sddm
+    sudo systemctl enable sddm.service
   fi
 
   # add user to video group for light
-  usermod -aG video $user
+  sudo usermod -aG video $USER
 
-  sudo -u $user cp -r $root/dotfiles/dot_config/dunst /home/$user/.config/
-  sudo -u $user cp -r $root/dotfiles/dot_config/hypr /home/$user/.config/
-  sudo -u $user cp -r $root/dotfiles/dot_config/kitty /home/$user/.config/
-  sudo -u $user cp -r $root/dotfiles/dot_config/swaylock /home/$user/.config/
-  sudo -u $user cp -r $root/dotfiles/dot_config/wal /home/$user/.config/
-  sudo -u $user cp -r $root/dotfiles/dot_config/waybar /home/$user/.config/
+  cp -r $root/dotfiles/dot_config/dunst ~/.config/
+  cp -r $root/dotfiles/dot_config/hypr ~/.config/
+  cp -r $root/dotfiles/dot_config/kitty ~/.config/
+  cp -r $root/dotfiles/dot_config/swaylock ~/.config/
+  cp -r $root/dotfiles/dot_config/wal ~/.config/
+  cp -r $root/dotfiles/dot_config/waybar ~/.config/
 
-  sudo -u $user cp -r $root/dotfiles/dot_local/bin/* /home/$user/.local/bin/
+  cp -r $root/dotfiles/dot_local/bin/* ~/.local/bin/
 
   # hide gtk close buttons
-  sudo -u $user gsettings set org.gnome.desktop.wm.preferences button-layout :
+  if [ "$profile" = "hyprland" ]; then
+    gsettings set org.gnome.desktop.wm.preferences button-layout :
+  fi
 fi
 
 echo -ne "
@@ -442,12 +430,12 @@ flatpak_apps=(
   us.zoom.Zoom
 )
 
-pacman -S --noconfirm --needed flatpak
+sudo pacman -S --noconfirm --needed flatpak
 
 flatpak install --noninteractive ${flatpak_apps[@]}
 
 # flatpak settings
-flatpak override org.mozilla.firefox --env=MOZ_ENABLE_WAYLAND=1
+sudo flatpak override org.mozilla.firefox --env=MOZ_ENABLE_WAYLAND=1
 
 if [ "$profile" = "gnome" ] || [ "$profile" = "all" ]; then
   flatpak install --noninteractive com.mattjakeman.ExtensionManager io.github.realmazharhussain.GdmSettings
@@ -457,9 +445,9 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
   flatpak install --noninteractive com.github.themix_project.Oomox
 
   # generate initial themes with Oomox
-  sudo -u $user wal -i /home/$user/.config/hypr/wallpaper
-  flatpak override com.github.themix_project.Oomox --filesystem=/home/$user/.cache/wal
-  sudo -u $user flatpak run --command=oomox-cli com.github.themix_project.Oomox /home/$user/.cache/wal/colors-oomox -o pywal
+  wal -i ~/.config/hypr/wallpaper
+  sudo flatpak override com.github.themix_project.Oomox --filesystem=~/.cache/wal
+  flatpak run --command=oomox-cli com.github.themix_project.Oomox ~/.cache/wal/colors-oomox -o pywal
 fi
 
 echo -ne "
@@ -485,19 +473,19 @@ if [ "$device" = "framework" ]; then
     power-profiles-daemon
   )
 
-  pacman -S --noconfirm --needed ${packages[@]}
+  sudo pacman -S --noconfirm --needed ${packages[@]}
 
-  systemctl enable power-profiles-daemon.service
+  sudo systemctl enable power-profiles-daemon.service
 
   # fixing brightness keys and screen freezes
-  cp $root/dotfiles/etc/modprobe.d/* /etc/modprobe.d/
+  sudo cp $root/dotfiles/etc/modprobe.d/* /etc/modprobe.d/
 fi
 
 if [ "$device" = "vm" ]; then
-  pacman -S --noconfirm --needed mesa xf86-video-vmware
+  sudo pacman -S --noconfirm --needed mesa xf86-video-vmware
 
   if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
-    sed -i 's/^Exec=.*$/Exec=env WLR_RENDERER_ALLOW_SOFTWARE=1 WLR_NO_HARDWARE_CURSORS=1 Hyprland/' /usr/share/wayland-sessions/hyprland.desktop
+    sudo sed -i 's/^Exec=.*$/Exec=env WLR_RENDERER_ALLOW_SOFTWARE=1 WLR_NO_HARDWARE_CURSORS=1 Hyprland/' /usr/share/wayland-sessions/hyprland.desktop
   fi
 fi
 
@@ -505,7 +493,7 @@ echo -ne "
 ======== 11. final snapshot ========
 "
 
-snapper -c root create --description "Install Complete"
+sudo snapper -c root create --description "Install Complete"
 
 echo -ne "
 Install Complete!
