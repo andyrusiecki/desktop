@@ -204,10 +204,9 @@ echo -ne "
 "
 
 # Install paru (https://github.com/Morganamilo/paru)
-tmp_dir=$(mktemp -d)
-git clone https://aur.archlinux.org/paru-bin.git $tmp_dir/paru
-(cd $tmp_dir/paru && makepkg --noconfirm --needed -si)
-rm -rf $tmp_dir
+sudo -u $user git clone https://aur.archlinux.org/paru-bin.git /home/$user/paru-bin
+sudo -u $user bash -c "cd /home/$user/paru-bin && makepkg --noconfirm --needed -si"
+sudo -u $user rm -rf /home/$user/paru-bin
 
 sudo -u $user cp -r $root/dotfiles/dot_config/paru /home/$user/.config/
 
