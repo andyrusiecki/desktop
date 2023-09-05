@@ -126,15 +126,6 @@ pkgs=(
   xdg-utils
   git
 
-  # sound (https://github.com/archlinux/archinstall/blob/master/archinstall/default_profiles/applications/pipewire.py)
-  pipewire
-  pipewire-alsa
-  pipewire-jack
-  pipewire-pulse
-  gst-plugin-pipewire
-  libpulse
-  wireplumber
-
   # ufw (https://wiki.archlinux.org/title/Uncomplicated_Firewall)
   gufw
   ufw
@@ -156,8 +147,6 @@ sudo systemctl enable bluetooth.service
 sudo systemctl enable ufw.service
 sudo systemctl enable avahi-daemon.service
 sudo systemctl enable cups.service
-
-systemctl enable --user pipewire-pulse.service
 
 echo -ne "
 ======== 4. plymouth and systemd-boot ========
@@ -451,7 +440,28 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
 fi
 
 echo -ne "
-======== 10. device ========
+======== 10. sound ========
+"
+
+pkgs=(
+  # sound (https://github.com/archlinux/archinstall/blob/master/archinstall/default_profiles/applications/pipewire.py)
+  pipewire
+  pipewire-alsa
+  pipewire-jack
+  pipewire-pulse
+  gst-plugin-pipewire
+  libpulse
+  wireplumber
+)
+
+# remove pulseaudio-also if installed by gnome dependencies
+sudo pacman -R pulseaudio-alsa
+sudo pacman -S --noconfirm --needed ${pkgs[@]}
+
+systemctl enable --user pipewire-pulse.service
+
+echo -ne "
+======== 11. device ========
 "
 
 if [ "$device" = "framework" ]; then
@@ -490,7 +500,7 @@ if [ "$device" = "vm" ]; then
 fi
 
 echo -ne "
-======== 11. final snapshot ========
+======== 12. final snapshot ========
 "
 
 sudo snapper -c root create --description "Install Complete"
