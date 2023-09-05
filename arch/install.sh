@@ -72,8 +72,8 @@ if test -z "$profile"; then
 fi
 
 # ensure user directories exist
-sudo -u $user mkdir -p ~/.config
-sudo -u $user mkdir -p ~/.local/bin
+sudo -u $user mkdir -p /home/$user/.config
+sudo -u $user mkdir -p /home/$user/.local/bin
 
 echo -ne "
 ======== 1. pacman ========
@@ -207,8 +207,7 @@ git clone https://aur.archlinux.org/paru-bin.git $tmp_dir/paru
 (cd $tmp_dir/paru && makepkg --noconfirm --needed -si)
 rm -rf $tmp_dir
 
-root=$(dirname $(realpath $0))
-sudo -u $user cp -r $root/dotfiles/dot_config/paru ~/.config/
+sudo -u $user cp -r $root/dotfiles/dot_config/paru /home/$user/.config/
 
 echo -ne "
 ======== 6. shell ========
@@ -216,10 +215,10 @@ echo -ne "
 
 pacman -S --noconfirm --needed fish starship
 
-sudo -u $user cp -r $root/dotfiles/dot_config/fish ~/.config/
-sudo -u $user cp -r $root/dotfiles/dot_config/starship.toml ~/.config/
+sudo -u $user cp -r $root/dotfiles/dot_config/fish /home/$user/.config/
+sudo -u $user cp -r $root/dotfiles/dot_config/starship.toml /home/$user/.config/
 
-sudo -u $user fish -c 'fish_add_path ~/.local/bin'
+sudo -u $user fish -c 'fish_add_path /home/$user/.local/bin'
 
 # Change default shell to fish
 chsh -s $(command -v fish) $user
@@ -246,9 +245,9 @@ pacman -S --noconfirm --needed ${pkgs[@]}
 # install aws ecr helper from AUR
 paru -S --noconfirm --needed amazon-ecr-credential-helper
 
-sudo -u $user cp -r $root/dotfiles/dot_config/containers ~/.config/
-sudo -u $user cp -r $root/dotfiles/dot_docker ~/.docker
-sudo -u $user cp -r $root/dotfiles/dot_cargo ~/.cargo
+sudo -u $user cp -r $root/dotfiles/dot_config/containers /home/$user/.config/
+sudo -u $user cp -r $root/dotfiles/dot_docker /home/$user/.docker
+sudo -u $user cp -r $root/dotfiles/dot_cargo /home/$user/.cargo
 
 sudo -u $user systemctl enable --user podman.socket
 
@@ -402,14 +401,14 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
   # add user to video group for light
   usermod -aG video $user
 
-  sudo -u $user cp -r $root/dotfiles/dot_config/dunst ~/.config/
-  sudo -u $user cp -r $root/dotfiles/dot_config/hypr ~/.config/
-  sudo -u $user cp -r $root/dotfiles/dot_config/kitty ~/.config/
-  sudo -u $user cp -r $root/dotfiles/dot_config/swaylock ~/.config/
-  sudo -u $user cp -r $root/dotfiles/dot_config/wal ~/.config/
-  sudo -u $user cp -r $root/dotfiles/dot_config/waybar ~/.config/
+  sudo -u $user cp -r $root/dotfiles/dot_config/dunst /home/$user/.config/
+  sudo -u $user cp -r $root/dotfiles/dot_config/hypr /home/$user/.config/
+  sudo -u $user cp -r $root/dotfiles/dot_config/kitty /home/$user/.config/
+  sudo -u $user cp -r $root/dotfiles/dot_config/swaylock /home/$user/.config/
+  sudo -u $user cp -r $root/dotfiles/dot_config/wal /home/$user/.config/
+  sudo -u $user cp -r $root/dotfiles/dot_config/waybar /home/$user/.config/
 
-  sudo -u $user cp -r $root/dotfiles/dot_local/bin/* ~/.local/bin/
+  sudo -u $user cp -r $root/dotfiles/dot_local/bin/* /home/$user/.local/bin/
 
   # hide gtk close buttons
   sudo -u $user gsettings set org.gnome.desktop.wm.preferences button-layout :
@@ -457,9 +456,9 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
   flatpak install --noninteractive com.github.themix_project.Oomox
 
   # generate initial themes with Oomox
-  sudo -u $user wal -i ~/.config/hypr/wallpaper
+  sudo -u $user wal -i /home/$user/.config/hypr/wallpaper
   flatpak override com.github.themix_project.Oomox --filesystem=/home/$user/.cache/wal
-  sudo -u $user flatpak run --command=oomox-cli com.github.themix_project.Oomox ~/.cache/wal/colors-oomox -o pywal
+  sudo -u $user flatpak run --command=oomox-cli com.github.themix_project.Oomox /home/$user/.cache/wal/colors-oomox -o pywal
 fi
 
 echo -ne "
