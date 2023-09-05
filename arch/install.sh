@@ -114,9 +114,11 @@ echo -ne "
 "
 
 pacman -S --noconfirm --needed snapper snap-pac
-umount /.snapshots
-rm -r /.snapshots
-snapper -c root create-config /
+mkdir -p /etc/snapper/configs/
+cp $root/dotfiles/etc/snapper/configs/* /etc/snapper/configs/
+
+mkdir -p /etc/conf.d/
+cp $root/dotfiles/etc/conf.d/snapper /etc/conf.d/
 
 systemctl enable snapper-cleanup.timer
 systemctl enable snapper-timeline.timer
