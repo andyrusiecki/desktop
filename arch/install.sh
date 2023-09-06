@@ -260,7 +260,7 @@ if [ "$profile" = "gnome" ] || [ "$profile" = "all" ]; then
     adw-gtk3
   )
 
-  paru -S --noconfirm --needed ${packages[@]}
+  paru -S --noconfirm --needed ${aur_pkgs[@]}
 
   sudo systemctl enable gdm.service
 
@@ -377,13 +377,7 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
     wttrbar
   )
 
-  paru -S --noconfirm --needed ${packages[@]}
-
-  # install sddm if we don't already have gdm from gnome
-  if [ "$profile" = "hyprland" ]; then
-    sudo pacman -S --noconfirm --needed sddm
-    sudo systemctl enable sddm.service
-  fi
+  paru -S --noconfirm --needed ${aur_pkgs[@]}
 
   # add user to video group for light
   sudo usermod -aG video $USER
@@ -397,8 +391,16 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
 
   cp -r $root/dotfiles/dot_local/bin/* ~/.local/bin/
 
-  # hide gtk close buttons
+  # hyprland only
   if [ "$profile" = "hyprland" ]; then
+    # install sddm if we don't already have gdm from gnome
+    sudo pacman -S --noconfirm --needed sddm
+
+    sudo mkdir -p /etc/sddm.conf.d
+    sudo echo -e "[Autologin]\nUser = $(whoami)\nSession=hyprland" >> /etc/sddm.conf.d/autologin.conf
+    sudo systemctl enable sddm.service
+
+    # hide gtk close buttons
     gsettings set org.gnome.desktop.wm.preferences button-layout :
   fi
 fi
@@ -486,6 +488,11 @@ if [ "$device" = "vm" ]; then
 
   if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
     sudo sed -i 's/^Exec=.*$/Exec=env WLR_RENDERER_ALLOW_SOFTWARE=1 WLR_NO_HARDWARE_CURSORS=1 Hyprland/' /usr/share/wayland-sessions/hyprland.desktop
+
+    # kitty fails to launch under hyprland in vm
+    sudo pacman -S --noconfirm --needed foot
+    sed -i 's/kitty/foot/' ~/.config/hypr/config.d/keybinds.conf
+    sed -i 's/kitty/foot/' ~/.config/waybar/config.cjson
   fi
 fi
 

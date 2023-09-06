@@ -3,7 +3,7 @@
 status="$(playerctl status)"
 prefix=""
 
-if [[] $status == "Paused" ]]; then
+if [ "$status" = "Paused" ]; then
   prefix="||"
 fi
 
