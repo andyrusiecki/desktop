@@ -253,7 +253,7 @@ if [ "$profile" = "gnome" ] || [ "$profile" = "all" ]; then
     xdg-desktop-portal-gnome
   )
 
-  sudo pacman -S --noconfirm --needed ${packages[@]}
+  sudo pacman -S --noconfirm --needed ${pkgs[@]}
 
   aur_pkgs=(
     aurutils
@@ -325,9 +325,10 @@ if [ "$profile" = "gnome" ] || [ "$profile" = "all" ]; then
 fi
 
 if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
-  packages=(
+  pkgs=(
     adwaita-cursors
     adwaita-icon-theme
+    blueman
     btop
     dunst
     gnome-keyring
@@ -345,6 +346,7 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
     libnotify
     light
     nautilus
+    network-manager-applet
     noto-fonts
     pamixer
     pavucontrol
@@ -352,7 +354,6 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
     python-pywal
     qt5-wayland
     qt6-wayland
-    sddm
     slurp
     swaybg
     swayidle
@@ -385,6 +386,7 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
   cp -r $root/dotfiles/dot_config/dunst ~/.config/
   cp -r $root/dotfiles/dot_config/hypr ~/.config/
   cp -r $root/dotfiles/dot_config/kitty ~/.config/
+  cp -r $root/dotfiles/dot_config/swayidle ~/.config/
   cp -r $root/dotfiles/dot_config/swaylock ~/.config/
   cp -r $root/dotfiles/dot_config/wal ~/.config/
   cp -r $root/dotfiles/dot_config/waybar ~/.config/
@@ -397,7 +399,7 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
     sudo pacman -S --noconfirm --needed sddm
 
     sudo mkdir -p /etc/sddm.conf.d
-    sudo echo -e "[Autologin]\nUser = $(whoami)\nSession=hyprland" >> /etc/sddm.conf.d/autologin.conf
+    sudo echo -e "[Autologin]\nUser = $(whoami)\nSession = hyprland" >> /etc/sddm.conf.d/autologin.conf
     sudo systemctl enable sddm.service
 
     # hide gtk close buttons
@@ -477,7 +479,7 @@ if [ "$device" = "framework" ]; then
     power-profiles-daemon
   )
 
-  sudo pacman -S --noconfirm --needed ${packages[@]}
+  sudo pacman -S --noconfirm --needed ${pkgs[@]}
 
   sudo systemctl enable power-profiles-daemon.service
 
@@ -493,7 +495,7 @@ if [ "$device" = "vm" ]; then
 
     # kitty fails to launch under hyprland in vm
     sudo pacman -S --noconfirm --needed foot
-    sed -i 's/kitty/foot/' ~/.config/hypr/config.d/keybinds.conf
+    sed -i 's/kitty/foot/' ~/.config/hypr/hyprland.conf
     sed -i 's/kitty/foot/' ~/.config/waybar/config.cjson
   fi
 fi

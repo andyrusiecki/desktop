@@ -10,12 +10,12 @@
 
     // Choose the order of the modules
     "modules-left": [
-        "wlr/workspaces",
-        "hyprland/submap",
-        "custom/playerctl"
+        "hyprland/workspaces",
+        "hyprland/window"
+        //"hyprland/submap"
     ],
     "modules-center": [
-        "hyprland/window"
+        "custom/playerctl"
     ],
     "modules-right": [
         "custom/updates",
@@ -23,18 +23,19 @@
         "pulseaudio",
         "cpu",
         "memory",
-        "network",
-        "bluetooth",
+        //"network",
+        //"bluetooth",
         "temperature",
         "backlight",
         "battery",
         "battery#bat2",
         "custom/dunst",
+        "tray",
         "clock",
-        "tray"
+        "custom/weather"
     ],
     // Modules configuration
-    "wlr/workspaces": {
+    "hyprland/workspaces": {
         "on-click": "activate",
         "all-outputs": true,
         "on-scroll-up": "hyprctl dispatch workspace e-1",
@@ -225,7 +226,7 @@
             "default": "🎜"
         },
         "exec": "~/.config/waybar/scripts/playerctl.sh",
-        "exec-if": "playerctl status",
+        "exec-if": "pgrep spotify",
         "on-click": "playerctl play-pause",
         "restart-interval": 1
     },
@@ -233,7 +234,7 @@
         "format": "{icon} {}",
         "return-type": "json",
         "format-icons": {
-            "updates": "",
+            "updates": "",
             "default": ""
         },
         "interval": 3600,
@@ -245,7 +246,7 @@
         "format": "{} °",
         "tooltip": true,
         "interval": 3600,
-        "exec": "wttrbar",
+        "exec": "wttrbar --ampm --fahrenheit --date-format '%m-%d-%Y'",
         "return-type": "json"
     },
 }
