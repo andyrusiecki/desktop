@@ -450,6 +450,8 @@ if [ "$profile" = "hyprland" ] || [ "$profile" = "all" ]; then
   wal -i ~/.config/hypr/wallpaper
   sudo flatpak override com.github.themix_project.Oomox --filesystem=~/.cache/wal
   flatpak run --command=oomox-cli com.github.themix_project.Oomox ~/.cache/wal/colors-oomox -o pywal
+
+  sudo flatpak override --filesystem=~/.themes
 fi
 
 echo -ne "
