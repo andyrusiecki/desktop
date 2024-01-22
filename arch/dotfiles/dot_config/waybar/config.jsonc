@@ -248,5 +248,5 @@
         "interval": 3600,
         "exec": "wttrbar --ampm --fahrenheit --date-format '%m-%d-%Y'",
         "return-type": "json"
-    },
+    }
 }
