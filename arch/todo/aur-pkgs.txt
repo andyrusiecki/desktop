@@ -1,0 +1,28 @@
+adw-gtk3 - theming
+adwaita-qt5-git - not needed
+adwaita-qt6-git - not needed
+amazon-ecr-credential-helper - dev helper (can be replaced with golang module)
+aurutils - used for update checker in waybar
+bluetuith-bin - used for bluetooth pairing
+downgrade - arch utility
+google-chrome - app (flatpak alternative)
+grimblast-git - screenshots
+lazydocker - cli docker visualization (not needed)
+light - screen backlight control
+paru-bin - package management
+podman-tui - cli podman visualization (not needed, lazydocker a bit better anyway)
+pods - app (flatpak alternative)
+postman-bin - app (flatpak alternative)
+python-pywalfox - theming
+rofi-lbonn-wayland - launcher (not actively used yet)
+slack-desktop - app (flatpak alternative)
+spicetify-cli - theming
+spotify - app (flatpak alternative)
+swaylock-effects-git - lock screen
+swayosd-git - osd for volume, backlight, etc (not needed, replace with dunst)
+tela-icon-theme - theming
+themix-full-git - theming (flatpak alternative)
+tlpui - app (flatpak alternative)
+ttf-ms-fonts - fonts
+visual-studio-code-bin - app (flatpak alternative)
+zsh-autocomplete - shell

@@ -1,0 +1,116 @@
+aardvark-dns - podman networking (not sure if needed)
+avahi - samba (might not be needed)
+aws-cli-v2 - dev
+bluez - bluetooth
+bluez-utils - bluetooth
+breeze-icons - theming
+btop - cli, waybar
+cifs-utils - samba (might not be needed)
+cni-plugins - podman networking (not sure if needed)
+cups - printing
+discord - app (flatpak alternative)
+distrobox - dev
+dnsmasq - podman networking (not sure if needed)
+docker-compose - dev
+dunst - notifications
+ffmpegthumbnailer - files tool (flatpak alternative?)
+file-roller - files tool
+firefox - app (flatpak alternative)
+fish - shell
+flatpak - package management
+fprintd - hardware support
+gamescope - gaming
+git - dev
+go - dev
+grim - screenshots
+gufw - firewall
+gvfs - files tool
+gvfs-nfs - files tool
+gvfs-smb - files tool
+hplip - printing
+hyprland - window manager
+imv - cli tool
+intel-media-driver - hardware support
+intel-ucode - hardware support
+jq - cli tool
+k9s - cli tool
+kanshi - display
+kbfs - app, keybase
+keybase - app, keybase
+keybase-gui - app, keybase
+kitty - terminal
+kubectl - dev
+less - cli
+libreoffice-fresh - app (flatpak alternative)
+libva-intel-driver - hardware support (not needed?)
+linux - kernel
+linux-firmware - firmware
+linux-lts - lts kernel
+lxappearance - theming
+man-db - cli tool
+mpv - cli tool
+nano - cli tool
+neofetch -cli tool
+neovim - cli tool
+nodejs - dev
+noto-fonts - fonts
+noto-fonts-emoji - fonts
+npm - dev
+obs-studio - app (flatpak alternative)
+obsidian - app (flatpak alternative)
+otf-firamono-nerd - fonts
+pacman-contrib - package management
+pamixer - audio (not sure if manually installed)
+papirus-icon-theme - theming
+passt - dev (not sure if used)
+pavucontrol - audio (not sure if manually installed)
+plymouth - boot
+podman - dev
+podman-compose - dev
+podman-dnsname dev
+podman-docker - dev
+polkit-gnome - polkit
+powertop - power
+python-pywal - theming
+qemu-full - virtualization
+qt5-wayland - hyprland dep
+qt6-wayland - hyprland dep
+ranger - cli tool
+reflector - package management
+signal-desktop - app (flatpak alternative)
+slurp - screenshots
+smbclient - samba
+snap-pac - backups
+snapper - backups
+starship - shell
+steam - app (flatpak alternative)
+swaybg - background
+swayidle - idle locking
+syncthing - app (flatpak alternative)
+tailscale - app
+thunar - files
+thunar-archive-plugin - files tool
+thunar-volman- files tool
+tlp - power
+tlp-rdw - power
+ttf-firacode-nerd - fonts
+ttf-hack-nerd - fonts
+ttf-jetbrains-mono-nerd - fonts
+ttf-meslo-nerd - fonts
+ttf-noto-nerd - fonts
+ttf-sourcecodepro-nerd - fonts
+tumbler - files tool (thunar)
+ufw - firewall
+vim - cli tool
+virt-manager - virtualization
+vulkan-intel - hardware support
+waybar - waybar
+wireplumber - audio
+wl-clipboard - cli tool
+wofi - launcher
+xdg-desktop-portal-gtk - window manager ext
+xdg-desktop-portal-hyprland - window manager ext
+yq - cli tool
+zsh - shell
+zsh-autosuggestions - shell
+zsh-syntax-highlighting - shell
