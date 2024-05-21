@@ -19,11 +19,11 @@
 
   for uuid in ${extensions[@]}
   do
-    info_json=$(curl -sS "https://extensions.gnome.org/extension-info/?uuid=$uuid&shell_version=$shell_version")
-    download_url=$(echo $info_json | jq ".download_url" --raw-output)
-
-    gnome-extensions install "https://extensions.gnome.org$download_url"
-    gnome-extensions enable $uuid
+    gdbus call --session \
+      --dest org.gnome.Shell.Extensions \
+      --object-path /org/gnome/Shell/Extensions \
+      --method org.gnome.Shell.Extensions.InstallRemoteExtension \
+      "$uuid"
   done
 
   # gnome dconf settings
