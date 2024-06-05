@@ -42,7 +42,7 @@ packages=(
   steam
   mangohud
   gamescope
-  timeshift
+  timeshift # TODO: remove
 )
 
 flatpak_apps=(
@@ -100,11 +100,11 @@ sudo dnf -y update @sound-and-video
 # sudo dnf -y install intel-media-driver
 
 # - AMD
-sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
-sudo dnf swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+sudo dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
+sudo dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
 
 # - NVIDIA
-# sudo dnf install libva-nvidia-driver
+# sudo dnf -y install libva-nvidia-driver
 
 # 8. Install packages
 sudo dnf -y install ${packages[@]}
@@ -135,16 +135,16 @@ for font in ${nerd_fonts[@]}
 do
   curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.zip --output $nerd_tmp/$font.zip
   font_dir=$(echo $font | sed 's/\([A-Z]\)/-\L\1/g;s/^-//')
-  unzip $nerd_tmp/$font.zip -d /usr/share/fonts/nerd-$font/
+  sudo unzip $nerd_tmp/$font.zip -d /usr/share/fonts/nerd-$font/
 done
 
 rm -rf $nerd_tmp
 
-fc-cache -f /usr/share/fonts
+sudo fc-cache -f /usr/share/fonts
 
 # - ms fonts
 sudo dnf install -y curl cabextract xorg-x11-font-utils fontconfig
-$ sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
+sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 
 # 13. Post install dev tasks
 sudo usermod -s $(command -v fish) $USER
@@ -199,22 +199,22 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 
 gsettings set org.gnome.system.location enabled true
 
-gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'com.google.Chrome.desktop', 'com.spotify.Client.desktop', 'com.valvesoftware.Steam.desktop', 'com.slack.Slack.desktop', 'net.cozic.joplin_desktop.desktop', 'com.visualstudio.code.desktop', 'org.gnome.Terminal.desktop']"
+# gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'com.google.Chrome.desktop', 'com.spotify.Client.desktop', 'com.valvesoftware.Steam.desktop', 'com.slack.Slack.desktop', 'net.cozic.joplin_desktop.desktop', 'com.visualstudio.code.desktop', 'org.gnome.Terminal.desktop']"
 
 # extension settings
 # just perfection
-gsettings set org.gnome.shell.extensions.just-perfection notification-banner-position 2
-gsettings set org.gnome.shell.extensions.just-perfection startup-status 0
+# gsettings set org.gnome.shell.extensions.just-perfection notification-banner-position 2
+# gsettings set org.gnome.shell.extensions.just-perfection startup-status 0
 
-# media controls
-gsettings set org.gnome.shell.extensions.mediacontrols extension-index 1
-gsettings set org.gnome.shell.extensions.mediacontrols extension-position 'Left'
-gsettings set org.gnome.shell.extensions.mediacontrols label-width 300
-gsettings set org.gnome.shell.extensions.mediacontrols show-control-icons-seek-backward false
-gsettings set org.gnome.shell.extensions.mediacontrols show-control-icons-seek-forward false
+# # media controls
+# gsettings set org.gnome.shell.extensions.mediacontrols extension-index 1
+# gsettings set org.gnome.shell.extensions.mediacontrols extension-position 'Left'
+# gsettings set org.gnome.shell.extensions.mediacontrols label-width 300
+# gsettings set org.gnome.shell.extensions.mediacontrols show-control-icons-seek-backward false
+# gsettings set org.gnome.shell.extensions.mediacontrols show-control-icons-seek-forward false
 
-# pip on top
-gsettings set org.gnome.shell.extensions.pip-on-top stick true
+# # pip on top
+# gsettings set org.gnome.shell.extensions.pip-on-top stick true
 
 # 13. Enable systemd services
 for i in ${systemd_services_root[@]}
