@@ -5,10 +5,10 @@ root=$(dirname $(realpath $0))
 packages=(
   # base
   adw-gtk3-theme
-  #sushi
   tailscale
 
   # shell
+  fastfetch
   fish
   starship
   neovim
@@ -22,27 +22,30 @@ packages=(
   # development
   awscli2
   distrobox
-  docker-compose
   golang
   jq
   kubectl
   make
-  moby-engine
+
+  # snapshots
+  snapper
+  python3-dnf-plugins-extras-snapper
 
   # Other applications
   celluloid
   code
   dconf-editor
   discord
+  gnome-console
   gnome-boxes
   gnome-tweaks
   google-chrome-stable
+  heroic-games-launcher-bin
   libreoffice
   nextcloud-client
   steam
   mangohud
   gamescope
-  timeshift # TODO: remove
 )
 
 flatpak_apps=(
@@ -63,7 +66,6 @@ flatpak_apps=(
 )
 
 systemd_services_root=(
-  docker
   tailscaled
 )
 
@@ -77,46 +79,45 @@ sudo dnf -y install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-rel
 sudo dnf -y update @core
 
 # 3. Add COPR repos
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-
 sudo cp $root/repos/* /etc/yum.repos.d/
 
 # 4. update current packages
 sudo dnf -y --refresh upgrade
 
-# 5. Install Snapper and dnf plugin
-sudo dnf -y install snapper python3-dnf-plugins-extras-snapper
+# 5. Install packages
+sudo dnf -y install ${packages[@]}
+
+# 6. Snapper configs
 sudo snapper --config=root create-config /
 sudo snapper -c root set-config ALLOW_USERS=$USER SYNC_ACL=yes
 
-# 6. Install Multimedia codecs
+# 7. Install Multimedia codecs
 # - install full ffmpeg
 sudo dnf -y swap ffmpeg-free ffmpeg --allowerasing
 sudo dnf -y update @multimedia --setopt="install_weak_deps=False" --exclude=PackageKit-gstreamer-plugin
 sudo dnf -y update @sound-and-video
 
-# 7. Hardware acceleration
-# - Intel
-# sudo dnf -y install intel-media-driver
+# 8. Hardware acceleration
+gpu="$(lspci | grep 'VGA')"
 
-# - AMD
-sudo dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
-sudo dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
-
-# - NVIDIA
-# sudo dnf -y install libva-nvidia-driver
-
-# 8. Install packages
-sudo dnf -y install ${packages[@]}
+if echo "$gpu" | grep -i 'intel' > /dev/null; then
+  sudo dnf -y install intel-media-driver
+elif echo "$gpu" | grep -i 'nvidia' > /dev/null; then
+  sudo dnf -y install libva-nvidia-driver
+elif echo "$gpu" | grep -i 'amd' > /dev/null; then
+  sudo dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
+  sudo dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+fi
 
 # 9. Install flatpak apps
 flatpak install --noninteractive ${flatpak_apps[@]}
 
-flatpak override --user com.slack.Slack --socket=wayland
-flatpak override --user com.spotify.Client --socket=wayland
-flatpak override --user md.obsidian.Obsidian --socket=wayland
+# 10. Docker Desktop
+docker_tmp=$(mktemp -d)
+curl -L https://desktop.docker.com/linux/main/amd64/149282/docker-desktop-4.30.0-x86_64.rpm --output $docker_tmp/docker-desktop.rpm
+sudo dnf -y install $docker_tmp/docker-desktop.rpm
 
-# 12. Add fonts
+# 11. Add fonts
 # - nerd fonts
 nerd_fonts=(
   FireCode
@@ -143,10 +144,9 @@ rm -rf $nerd_tmp
 sudo fc-cache -f /usr/share/fonts
 
 # - ms fonts
-sudo dnf install -y curl cabextract xorg-x11-font-utils fontconfig
 sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
 
-# 13. Post install dev tasks
+# 12. Post install dev tasks
 sudo usermod -s $(command -v fish) $USER
 
 # docker user
@@ -156,7 +156,7 @@ sudo usermod -aG docker $USER
 # aws ecr helper
 go install github.com/awslabs/amazon-ecr-credential-helper/ecr-login/cli/docker-credential-ecr-login@latest
 
-# 14. Gnome settings and extensions
+# 13. Gnome settings and extensions
 extensions=(
   user-theme@gnome-shell-extensions.gcampax.github.com
   pip-on-top@rafostar.github.com
@@ -175,7 +175,7 @@ do
     break
   fi
 
-  busctl --user call org.gnome.Shell.Extensions /org/gnome/Shell/Extensions org.gnome.Shell.Extensions InstallRemoteExtension s $uuid
+  busctl --user --timeout=30 call org.gnome.Shell.Extensions /org/gnome/Shell/Extensions org.gnome.Shell.Extensions InstallRemoteExtension s $uuid
 
   gnome-extensions enable $uuid
 done
@@ -190,7 +190,7 @@ gsettings set org.gnome.desktop.interface font-hinting "slight"
 gsettings set org.gnome.desktop.interface gtk-theme "adw-gtk3"
 
 # fractional scaling
-# gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
 # variable refresh rate
 gsettings set org.gnome.mutter experimental-features "['variable-refresh-rate']"
@@ -199,7 +199,7 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 
 gsettings set org.gnome.system.location enabled true
 
-# gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'com.google.Chrome.desktop', 'com.spotify.Client.desktop', 'com.valvesoftware.Steam.desktop', 'com.slack.Slack.desktop', 'net.cozic.joplin_desktop.desktop', 'com.visualstudio.code.desktop', 'org.gnome.Terminal.desktop']"
+gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.gnome.Software.desktop', 'org.mozilla.firefox.desktop', 'google-chrome.desktop', 'com.spotify.Client.desktop', 'discord.desktop', 'steam.desktop', 'com.slack.Slack.desktop', 'md.obsidian.Obsidian.desktop', 'code.desktop', 'docker-desktop.desktop', 'org.gnome.Console.desktop']"
 
 # extension settings
 # just perfection
@@ -216,7 +216,7 @@ gsettings set org.gnome.system.location enabled true
 # # pip on top
 # gsettings set org.gnome.shell.extensions.pip-on-top stick true
 
-# 13. Enable systemd services
+# 14. Enable systemd services
 for i in ${systemd_services_root[@]}
 do
 	sudo systemctl enable $i
