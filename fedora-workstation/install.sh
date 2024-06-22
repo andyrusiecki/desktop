@@ -8,6 +8,7 @@ packages=(
   tailscale
 
   # shell
+  btop
   fastfetch
   fish
   starship
@@ -50,6 +51,7 @@ packages=(
 
 flatpak_apps=(
   com.getpostman.Postman
+  com.github.marhkb.Pods
   com.github.tchx84.Flatseal
   com.mattjakeman.ExtensionManager
   com.slack.Slack
@@ -110,11 +112,11 @@ elif echo "$gpu" | grep -i 'amd' > /dev/null; then
 fi
 
 # 9. Install flatpak apps
-flatpak install --noninteractive ${flatpak_apps[@]}
+flatpak install --app --noninteractive ${flatpak_apps[@]}
 
 # 10. Docker Desktop
 docker_tmp=$(mktemp -d)
-curl -L https://desktop.docker.com/linux/main/amd64/149282/docker-desktop-4.30.0-x86_64.rpm --output $docker_tmp/docker-desktop.rpm
+curl -L https://desktop.docker.com/linux/main/amd64/153195/docker-desktop-4.31.0-x86_64.rpm --output $docker_tmp/docker-desktop.rpm
 sudo dnf -y install $docker_tmp/docker-desktop.rpm
 
 # 11. Add fonts
@@ -190,7 +192,7 @@ gsettings set org.gnome.desktop.interface font-hinting "slight"
 gsettings set org.gnome.desktop.interface gtk-theme "adw-gtk3"
 
 # fractional scaling
-gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
+#gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 
 # variable refresh rate
 gsettings set org.gnome.mutter experimental-features "['variable-refresh-rate']"
