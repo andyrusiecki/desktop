@@ -1,9 +1,0 @@
-#!/bin/sh
-
-cmd="flatpak run com.visualstudio.code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform=wayland $@"
-
-if [[ -f "/run/.containerenv" ]]; then
-  flatpak-spawn --host $cmd
-else
-  $cmd
-fi
