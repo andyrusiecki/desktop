@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+basedir=$(dirname $(realpath $0))
+source $basedir/../../shared/bootstrap.sh
+
 taskLog "Applications"
 
 taskItem "removing unneeded apps"

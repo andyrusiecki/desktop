@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e
+basedir=$(dirname $(realpath $0))
+source $basedir/../../shared/bootstrap.sh
+
 taskLog "Terminal"
 
 taskItem "installing packages"
@@ -16,8 +20,8 @@ sudo chsh -s /usr/bin/fish $USER
 
 taskItem "creating fish configuration"
 mkdir -p ~/.local/bin
-install -Dm644 ../shared/files/config.fish ~/.config/fish/config.fish
+install -Dm644 $basedir/../../shared/files/config.fish ~/.config/fish/config.fish
 
 taskItem "creating starship configuration"
 mkdir -p ~/.config
-install -Dm644 ../shared/files/starship.toml ~/.config/starship.toml
+install -Dm644 $basedir/../../shared/files/starship.toml ~/.config/starship.toml
