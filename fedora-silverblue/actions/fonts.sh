@@ -27,7 +27,7 @@ fonts=(
 )
 
 tmp_dir=$(mktemp -d)
-base_dir="/usr/share/fonts"
+base_dir="~/.local/share/fonts"
 
 for font in ${fonts[@]}
 do
@@ -37,13 +37,13 @@ do
   curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.zip --output $tmp_dir/$font.zip
 
   if [ -d "$fontdir" ]; then
-    sudo rm $fontdir
+    rm $fontdir
   fi
 
-  sudo unzip $tmp_dir/$font.zip -d $fontdir/
+  unzip $tmp_dir/$font.zip -d $fontdir/
 done
 
 rm -rf $tmp_dir
 
 taskItem "clearing font cache"
-sudo fc-cache -r
+fc-cache -r
