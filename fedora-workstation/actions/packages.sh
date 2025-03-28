@@ -7,7 +7,11 @@ source $basedir/../../shared/bootstrap.sh
 taskLog "Applications"
 
 taskItem "removing unneeded apps"
-sudo dnf --assumeyes remove firefox gnome-abrt abrt
+sudo dnf --assumeyes remove \
+  firefox \
+  gnome-abrt \
+  abrt \
+  toolbox
 
 taskItem "installing new apps"
 dnfInstall \
@@ -15,6 +19,5 @@ dnfInstall \
   discord \
   gnome-tweaks \
   mangohud \
-  nextcloud-client \
   steam \
   steam-devices

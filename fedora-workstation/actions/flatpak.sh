@@ -31,6 +31,7 @@ flatpak_apps=(
   com.github.tchx84.Flatseal
   com.google.Chrome
   com.mattjakeman.ExtensionManager
+  com.nextcloud.desktopclient.nextcloud
   com.slack.Slack
   com.spotify.Client
   dev.qwery.AddWater

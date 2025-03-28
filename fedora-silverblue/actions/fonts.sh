@@ -34,10 +34,10 @@ do
   fontname="nerd-$(echo "$font" | sed 's/[A-Z]/-\l&/g' | sed 's/^-//')"
   fontdir="$base_dir/$fontname"
 
-  curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.zip --output $tmp_dir/$font.zip
+  curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.zip --output $tmp_dir/$font.zip &> /dev/null
 
   if [ -d "$fontdir" ]; then
-    rm $fontdir
+    rm -r $fontdir
   fi
 
   unzip $tmp_dir/$font.zip -d $fontdir/

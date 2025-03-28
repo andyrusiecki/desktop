@@ -21,8 +21,4 @@ rpm-ostree install \
   --assumeyes \
   --install adw-gtk3-theme \
   --install distrobox \
-#  --install fish \
-#  --install neovim \
-#  --install starship \
-  --install steam-devices \
-#  --install tailscale
+  --install steam-devices
