@@ -13,6 +13,10 @@ dnfInstall() {
   sudo dnf --assumeyes install $@
 }
 
+pacmanInstall() {
+  paru -S --noconfirm $@
+}
+
 export -f taskLog
 export -f taskItem
 export -f dnfInstall

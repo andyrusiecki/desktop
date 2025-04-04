@@ -7,16 +7,18 @@ source $basedir/../../shared/bootstrap.sh
 taskLog "Development"
 
 taskItem "installing packages"
-rpm-ostree install --assume-yes --apply-live distrobox
-  #awscli2 \
-  #code \
-  #git \
-  #golang \
-  #jq \
-  #kubectl \
-  #make \
-  #podman-compose \
-  #podman-docker
+pacmanInstall \
+  aws-cli-v2 \
+  distrobox \
+  git \
+  go \
+  jq \
+  kubectl \
+  k9s \
+  make \
+  podman-compose \
+  podman-docker \
+  visual-studio-code-bin
 
 taskItem "creating podman configuration"
 mkdir -p ~/.config/containers
@@ -32,5 +34,3 @@ chmod +x ~/.local/bin/podman-host
 
 curl -s https://raw.githubusercontent.com/89luca89/distrobox/main/extras/vscode-distrobox -o ~/.local/bin/vscode-distrobox
 chmod +x ~/.local/bin/vscode-distrobox
-
-# TODO: add distrobox container
