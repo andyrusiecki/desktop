@@ -44,14 +44,16 @@ flatpak_apps=(
   me.dusansimic.DynamicWallpaper
   org.gnome.Boxes
   org.gnome.World.PikaBackup
-  org.gtk.Gtk3theme.adw-gtk3
   org.libreoffice.LibreOffice
   org.mozilla.firefox
   org.signal.Signal
   us.zoom.Zoom
 )
 
-flatpak install --app --noninteractive ${flatpak_apps[@]}
+flatpak_runtimes=(
+  org.gtk.Gtk3theme.adw-gtk3
+  org.freedesktop.Platform.ffmpeg-full//23.08
+)
 
-# needed for firefox hw decode
-flatpak install --runtime --noninteractive org.freedesktop.Platform.ffmpeg-full//23.08
+flatpak install --app --noninteractive ${flatpak_apps[@]}
+flatpak install --runtime --noninteractive ${flatpak_runtimes[@]}
