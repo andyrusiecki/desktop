@@ -41,12 +41,10 @@ extensions=(
   user-theme@gnome-shell-extensions.gcampax.github.com
 )
 
-shell_version=$(gnome-shell --version | cut -d' ' -f3)
-
 for uuid in ${extensions[@]}
 do
   if gnome-extensions list | grep --quiet $uuid; then
-    break
+    continue
   fi
 
   busctl --user call org.gnome.Shell.Extensions /org/gnome/Shell/Extensions org.gnome.Shell.Extensions InstallRemoteExtension s $uuid

@@ -9,8 +9,8 @@ taskLog "Fonts"
 taskItem "installing fonts"
 pacmanInstall \
   otf-firamono-nerd \
-  ttf-bitstream-mono-nerd \
-  ttr-cascadia-code-nerd \
+  ttf-bitstream-vera-mono-nerd \
+  ttf-cascadia-code-nerd \
   ttf-cascadia-mono-nerd \
   ttf-dejavu-nerd \
   ttf-firacode-nerd \
