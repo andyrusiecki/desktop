@@ -14,7 +14,7 @@ dnfInstall() {
 }
 
 pacmanInstall() {
-  paru -S --noconfirm $@
+  paru -S --noconfirm --needed $@
 }
 
 export -f taskLog
