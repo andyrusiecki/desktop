@@ -12,9 +12,12 @@ pacmanInstall \
   snapper
 
 taskItem "creating root snapper config"
-sudo mkdir -p /etc/snapper/configs/
-sudo install -Dm640 $basedir/../../shared/files/snapper-root-config /etc/snapper/configs/root
-sudo sed -i "s/\$USER/$USER/" /etc/snapper/configs/root
+sudo umount /.snapshots
+sudo rm -r /.snapshots
+sudo snapper -c root create-config /
+sudo btrfs subvolume delete /.snapshots
+sudo mkdir /.snapshots
+sudo mount -a
 
 taskItem "enabling timers"
 sudo systemctl enable snapper-boot.timer

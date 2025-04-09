@@ -9,4 +9,4 @@ taskItem "installing packages"
 pacmanInstall tuned-ppd
 
 taskItem "enabling power profiles service"
-sudo systemctl enable tuned-ppd
+sudo systemctl enable --now tuned-ppd

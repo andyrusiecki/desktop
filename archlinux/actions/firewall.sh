@@ -9,4 +9,4 @@ taskItem "installing apps"
 pacmanInstall firewalld
 
 taskItem "enabling firewall service"
-sudo systemctl enable firewalld
+sudo systemctl enable --now firewalld
