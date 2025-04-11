@@ -20,6 +20,3 @@ echo "\nSetup complete! Please restart your computer to apply all changes."
 # Manual Tasks
 
 # - setup secure boot with https://wiki.archlinux.org/title/Unified_Extensible_Firmware_Interface/Secure_Boot#Assisted_process_with_sbctl
-
-# TODO:
-

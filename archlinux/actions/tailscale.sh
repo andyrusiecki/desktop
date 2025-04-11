@@ -11,4 +11,4 @@ pacmanInstall tailscale
 
 taskItem "enabling tailscale"
 sudo systemctl enable --now tailscaled
-tailscale set --operator=$USER
+sudo tailscale set --operator=$USER

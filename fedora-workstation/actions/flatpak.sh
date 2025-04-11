@@ -52,7 +52,7 @@ flatpak_apps=(
 
 flatpak_runtimes=(
   org.gtk.Gtk3theme.adw-gtk3
-  org.freedesktop.Platform.ffmpeg-full//23.08
+  org.freedesktop.Platform.ffmpeg-full//24.08
 )
 
 flatpak install --app --noninteractive ${flatpak_apps[@]}

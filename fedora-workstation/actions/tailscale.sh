@@ -11,4 +11,4 @@ dnfInstall tailscale
 
 taskItem "enabling tailscale"
 sudo systemctl enable tailscaled
-tailscale set --operator=$USER
+sudo tailscale set --operator=$USER
