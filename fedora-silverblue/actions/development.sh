@@ -38,6 +38,6 @@ distrobox create \
   curl https://copr.fedorainfracloud.org/coprs/atim/starship/repo/fedora -o /etc/yum.repos.d/starship.repo && \
   echo \"$k8s_repo\" > /etc/yum.repos.d/kubernetes.repo && \
   ln -s /usr/bin/distrobox-host-exec /usr/local/bin/podman && \
-  ln -s /usr/local/bin/podman /usr/local/bin/docker"
-  --additional-packages "awscli2 git golang jq make neovim podman-compose starship fish"
+  ln -s /usr/local/bin/podman /usr/local/bin/docker" \
+  --additional-packages "awscli2 git golang jq make neovim podman-compose starship fish" \
   --init-hooks "ln -s /usr/bin/podman-compose /usr/local/bin/docker-compose"

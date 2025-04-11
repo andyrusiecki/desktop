@@ -29,6 +29,8 @@ fonts=(
 tmp_dir=$(mktemp -d)
 base_dir="/usr/share/fonts"
 
+sudo mkdir -p $base_dir
+
 for font in ${fonts[@]}
 do
   fontname="nerd-$(echo "$font" | sed 's/[A-Z]/-\l&/g' | sed 's/^-//')"
@@ -40,6 +42,7 @@ do
     sudo rm -r $fontdir
   fi
 
+  sudo mkdir -p $fontdir
   sudo unzip $tmp_dir/$font.zip -d $fontdir/
 done
 

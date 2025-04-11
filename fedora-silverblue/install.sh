@@ -13,4 +13,3 @@ $basedir/actions/fonts.sh
 $basedir/actions/gnome.sh
 
 echo "\nSetup complete! Please restart your computer to apply all changes."
-
