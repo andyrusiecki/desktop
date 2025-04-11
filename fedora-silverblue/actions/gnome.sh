@@ -52,13 +52,13 @@ done
 
 taskItem "updating GNOME extension settings"
 
-schemadir="~/.local/share/gnome-shell/extensions/caffeine@patapon.info/schemas"
+schemadir="$HOME/.local/share/gnome-shell/extensions/caffeine@patapon.info/schemas"
 gsettings --schemadir $schemadir set org.gnome.shell.extensions.caffeine nightlight-control 'always'
 
-schemadir="~/.local/share/gnome-shell/extensions/just-perfection-desktop@just-perfection/schemas"
+schemadir="$HOME/.local/share/gnome-shell/extensions/just-perfection-desktop@just-perfection/schemas"
 gsettings --schemadir $schemadir set org.gnome.shell.extensions.just-perfection notification-banner-position 2
 
-schemadir="~/.local/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas"
+schemadir="$HOME/.local/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas"
 gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols elements-order "['ICON', 'CONTROLS', 'LABEL']"
 gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols extension-index 1
 gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols extension-position 'Left'
@@ -66,10 +66,10 @@ gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols la
 gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols show-control-icons-seek-backward true
 gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols show-control-icons-seek-forward true
 
-schemadir="~/.local/share/gnome-shell/extensions/nightthemeswitcher@romainvigier.fr/schemas"
+schemadir="$HOME/.local/share/gnome-shell/extensions/nightthemeswitcher@romainvigier.fr/schemas"
 gsettings --schemadir $schemadir set org.gnome.shell.extensions.nightthemeswitcher.time manual-schedule true
 gsettings --schemadir $schemadir set org.gnome.shell.extensions.nightthemeswitcher.time sunrise 6.0
 gsettings --schemadir $schemadir set org.gnome.shell.extensions.nightthemeswitcher.time sunset 18.0
 
-schemadir="~/.local/share/gnome-shell/extensions/pip-on-top@rafostar.github.com/schemas"
+schemadir="$HOME/.local/share/gnome-shell/extensions/pip-on-top@rafostar.github.com/schemas"
 gsettings --schemadir $schemadir set org.gnome.shell.extensions.pip-on-top stick true

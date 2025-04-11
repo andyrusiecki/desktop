@@ -27,7 +27,7 @@ fonts=(
 )
 
 tmp_dir=$(mktemp -d)
-base_dir="~/.local/share/fonts"
+base_dir="$HOME/.local/share/fonts"
 
 mkdir -p $base_dir
 

@@ -19,8 +19,8 @@ taskItem "changing default shell to 'fish'"
 sudo chsh -s /usr/bin/fish $USER
 
 taskItem "creating fish configuration"
-mkdir -p ~/.config/fish
-install -Dm644 $basedir/../../shared/files/config.fish ~/.config/fish/config.fish
+mkdir -p $HOME/.config/fish
+install -Dm644 $basedir/../../shared/files/config.fish $HOME/.config/fish/config.fish
 
 taskItem "creating starship configuration"
-install -Dm644 $basedir/../../shared/files/starship.toml ~/.config/starship.toml
+install -Dm644 $basedir/../../shared/files/starship.toml $HOME/.config/starship.toml
