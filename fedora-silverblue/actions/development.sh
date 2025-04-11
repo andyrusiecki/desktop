@@ -6,9 +6,6 @@ source $basedir/../../shared/bootstrap.sh
 
 taskLog "Development"
 
-taskItem "installing distrobox"
-rpm-ostree install --assume-yes --apply-live distrobox
-
 taskItem "creating podman configuration"
 mkdir -p ~/.config/containers
 install -Dm644 $basedir/../../shared/files/containers.conf ~/.config/containers/containers.conf

@@ -10,15 +10,13 @@ taskItem "upgrading base image"
 rpm-ostree upgrade
 
 taskItem "removing unneeded packages"
-rpm-ostree remove \
-  --assumeyes \
+sudo rpm-ostree override remove \
   firefox \
   firefox-langpacks \
   toolbox
 
 taskItem "adding new packages"
-rpm-ostree install \
-  --assumeyes \
-  --install adw-gtk3-theme \
-  --install distrobox \
-  --install steam-devices
+ostreeInstall \
+  adw-gtk3-theme \
+  distrobox \
+  steam-devices

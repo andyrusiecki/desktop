@@ -17,6 +17,10 @@ pacmanInstall() {
   paru -S --noconfirm --needed $@
 }
 
+ostreeInstall() {
+  rpm-ostree install --assumeyes --idempotent $@
+}
+
 export -f taskLog
 export -f taskItem
 export -f dnfInstall

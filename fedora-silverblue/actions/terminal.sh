@@ -7,7 +7,7 @@ source $basedir/../../shared/bootstrap.sh
 taskLog "Terminal"
 
 taskItem "installing packages"
-rpm-ostree install --assume-yes --apply-live \
+ostreeInstall --apply-live \
   btop \
   fastfetch \
   fish \
