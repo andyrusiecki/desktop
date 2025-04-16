@@ -6,15 +6,6 @@ source $basedir/../../shared/bootstrap.sh
 
 taskLog "Terminal"
 
-taskItem "installing packages"
-ostreeInstall --apply-live \
-  btop \
-  fastfetch \
-  fish \
-  neovim \
-  ranger \
-  starship
-
 taskItem "changing default shell to 'fish'"
 sudo chsh -s /usr/bin/fish $USER
 

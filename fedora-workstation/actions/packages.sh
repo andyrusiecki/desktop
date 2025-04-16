@@ -17,6 +17,9 @@ taskItem "installing new apps"
 dnfInstall \
   adw-gtk3-theme \
   discord \
+  gnome-shell-extension-appindicator \
+  gnome-shell-extension-caffeine \
+  gnome-shell-extension-just-perfection \
   gnome-tweaks \
   mangohud \
   steam \

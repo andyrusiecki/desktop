@@ -18,5 +18,15 @@ sudo rpm-ostree override remove \
 taskItem "adding new packages"
 ostreeInstall \
   adw-gtk3-theme \
+  btop \
   distrobox \
+  fastfetch \
+  fish \
+  gnome-shell-extension-appindicator \
+  gnome-shell-extension-caffeine \
+  gnome-shell-extension-just-perfection \
+  neovim \
+  podman-compose \
+  ranger \
+  starship \
   steam-devices
