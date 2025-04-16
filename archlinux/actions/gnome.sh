@@ -30,8 +30,6 @@ taskItem "installing GNOME extensions"
 extensions=(
   app-hider@lynith.dev
   AlphabeticalAppGrid@stuarthayhurst
-  appindicatorsupport@rgcjonas.gmail.com
-  caffeine@patapon.info
   just-perfection-desktop@just-perfection
   mediacontrols@cliffniff.github.com
   nightthemeswitcher@romainvigier.fr

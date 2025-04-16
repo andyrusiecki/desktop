@@ -35,6 +35,8 @@ pacmanInstall \
   downgrade \
   file-roller \
   fprintd \
+  gnome-shell-extension-appindicator \
+  gnome-shell-extension-caffeine \
   gnome-tweaks \
   iio-sensor-proxy \
   man-db \
