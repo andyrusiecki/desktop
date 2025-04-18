@@ -30,19 +30,29 @@ sudo pacman-key --populate archlinux
 taskItem "installing new packages"
 pacmanInstall \
   adw-gtk-theme \
+  celluloid \
   cups \
   discord \
   downgrade \
   file-roller \
+  firefox \
   fprintd \
+  gnome-boxes \
   gnome-shell-extension-appindicator \
   gnome-shell-extension-caffeine \
   gnome-tweaks \
+  google-chrome \
   iio-sensor-proxy \
+  libreoffice-fresh \
   man-db \
   mangohud \
+  mission-center \
+  nextcloud-client \
+  obsidian \
   pacman-contrib \
+  pika-backup \
   reflector \
+  signal-desktop \
   steam
 
 taskItem "enabling pacman cache cleaning timer"
