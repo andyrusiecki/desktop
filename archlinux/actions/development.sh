@@ -9,7 +9,7 @@ taskLog "Development"
 taskItem "installing packages"
 pacmanInstall \
   atac \
-  aws-cli-v2 \
+  aws-cli-bin \
   docker \
   docker-buildx \
   docker-compose \
