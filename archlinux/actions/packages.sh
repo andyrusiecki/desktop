@@ -47,6 +47,7 @@ pacmanInstall \
   man-db \
   mangohud \
   mission-center \
+  nautilus-python \
   nextcloud-client \
   obsidian \
   pacman-contrib \
