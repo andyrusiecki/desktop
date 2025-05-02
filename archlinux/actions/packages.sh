@@ -59,7 +59,7 @@ taskItem "enabling pacman cache cleaning timer"
 sudo systemctl enable paccache.timer
 
 taskItem "adding mirrorlist config"
-sudo install -Dm644 $basedir/../files/reflector.conf /etc/xdg/reflector/reflector.conf
+sudo echo -e "--latest 10\n--sort rate\n--protocol https\n--save /etc/pacman.d/mirrorlist\n" > /etc/xdg/reflector/reflector.conf
 
 taskItem "enabling mirrorlist refresh timer"
 sudo systemctl enable reflector.timer
