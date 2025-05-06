@@ -11,10 +11,8 @@ pacmanInstall \
   atac \
   aws-cli-bin \
   difftastic \
-  docker \
-  docker-buildx \
-  docker-compose \
-  docker-credential-secretservice-bin \
+  docker-desktop \
+  docker-credential-pass \
   git \
   go \
   jq \
@@ -22,6 +20,7 @@ pacmanInstall \
   k9s \
   lazydocker-bin \
   make \
+  pass \
   visual-studio-code-bin
 
 taskItem "add user to docker group"
@@ -30,7 +29,7 @@ newgrp docker
 
 taskItem "add docker config"
 mkdir -p ~/.docker
-echo -e "{\n  \"credsStore\": \"secretservice\"\n}\n" > ~/.docker/config.json
+echo -e "{\n  \"credsStore\": \"pass\"\n}\n" > ~/.docker/config.json
 
-taskItem "enable docker socket"
-sudo systemctl enable --now docker.socket
+taskItem "allow container lower port binding"
+echo "net.ipv4.ip_unprivileged_port_start = 80" | sudo tee /etc/sysctl.d/99-containers.conf > /dev/null
