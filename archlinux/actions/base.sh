@@ -27,34 +27,16 @@ sudo sed -i '/NewsOnUpgrade/s/^#//g' /etc/paru.conf
 taskItem "updating archlinux keyring"
 sudo pacman-key --populate archlinux
 
-taskItem "installing new packages"
+taskItem "installing base packages"
 pacmanInstall \
-  adw-gtk-theme \
-  celluloid \
   cups \
-  discord \
   downgrade \
   file-roller \
-  firefox \
   fprintd \
-  gnome-boxes \
-  gnome-shell-extension-appindicator \
-  gnome-shell-extension-caffeine \
-  gnome-tweaks \
-  google-chrome \
   iio-sensor-proxy \
-  libreoffice-fresh \
   man-db \
-  mangohud \
-  mission-center \
-  nautilus-python \
-  nextcloud-client \
-  obsidian \
   pacman-contrib \
-  pika-backup \
-  reflector \
-  signal-desktop \
-  steam
+  reflector
 
 taskItem "enabling pacman cache cleaning timer"
 sudo systemctl enable paccache.timer

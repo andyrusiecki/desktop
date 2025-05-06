@@ -21,11 +21,15 @@ gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type "no
 
 gsettings set org.gnome.system.location enabled true
 
-gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'com.google.Chrome.desktop', 'com.spotify.Client.desktop', 'discord.desktop', 'steam.desktop', 'com.slack.Slack.desktop', 'md.obsidian.Obsidian.desktop', 'code.desktop', 'com.github.marhkb.Pods.desktop', 'org.gnome.Console.desktop']"
+gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'firefox.desktop', 'google-chrome.desktop', 'com.spotify.Client.desktop', 'discord.desktop', 'signal-desktop.desktop', 'com.slack.Slack.desktop', 'steam.desktop', 'obsidian.desktop', 'code.desktop', 'org.gnome.Console.desktop']"
 
 gsettings set org.gnome.shell.weather automatic-location true
 
 taskItem "installing GNOME extensions"
+
+pacmanInstall \
+  gnome-shell-extension-appindicator \
+  gnome-shell-extension-caffeine
 
 extensions=(
   app-hider@lynith.dev

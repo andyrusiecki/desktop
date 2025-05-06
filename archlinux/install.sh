@@ -3,10 +3,11 @@
 set -e
 basedir=$(dirname $(realpath $0))
 
-$basedir/actions/packages.sh
+$basedir/actions/base.sh
 $basedir/actions/snapshots.sh
 $basedir/actions/tailscale.sh
-$basedir/actions/flatpak.sh
+$basedir/actions/apps.sh
+$basedir/actions/gaming.sh
 $basedir/actions/terminal.sh
 $basedir/actions/development.sh
 $basedir/actions/fonts.sh
