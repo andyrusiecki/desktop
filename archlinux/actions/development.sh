@@ -20,6 +20,8 @@ pacmanInstall \
   k9s \
   lazydocker-bin \
   make \
+  nodejs \
+  npm \
   pass \
   visual-studio-code-bin
 
