@@ -23,6 +23,8 @@ rm -rf $tmp_dir
 
 taskItem "updating paru config"
 sudo sed -i '/NewsOnUpgrade/s/^#//g' /etc/paru.conf
+sudo sed -i '/CombinedUpgrade/s/^#//g' /etc/paru.conf
+echo -e "[env]\nDFT_COLOR = always" | sudo tee -a /etc/paru.conf > /dev/null
 
 taskItem "updating archlinux keyring"
 sudo pacman-key --populate archlinux
