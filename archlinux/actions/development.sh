@@ -11,10 +11,6 @@ pacmanInstall \
   atac \
   aws-cli-bin \
   difftastic \
-  docker \
-  docker-buildx \
-  docker-compose \
-  docker-credential-secretservice-bin \
   git \
   go \
   jq \
@@ -24,18 +20,18 @@ pacmanInstall \
   make \
   nodejs \
   npm \
+  podman-compose \
+  podman-docker \
+  podman-tui \
   visual-studio-code-bin
-
-taskItem "add user to docker group"
-sudo usermod -aG docker $USER
-newgrp docker
-
-taskItem "add docker config"
-mkdir -p ~/.docker
-echo -e "{\n  \"credsStore\": \"secretservice\"\n}\n" > ~/.docker/config.json
 
 taskItem "allow container lower port binding"
 echo "net.ipv4.ip_unprivileged_port_start = 80" | sudo tee /etc/sysctl.d/99-containers.conf > /dev/null
 
-taskItem "enable docker socket"
-sudo systemctl enable --now docker.socket
+task "add containers configurations"
+mkdir -p ~/.config/containers
+install -Dm644 $basedir/../../shared/files/containers.conf ~/.config/containers/containers.conf
+install -Dm644 $basedir/../../shared/files/registries.conf ~/.config/containers/registries.conf
+
+taskItem "enable podman socket"
+systemctl --user enable --now podman.socket
