@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
+
 basedir=$(dirname $(realpath $0))
 source $basedir/../../shared/bootstrap.sh
 
@@ -24,49 +25,3 @@ gsettings set org.gnome.system.location enabled true
 gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.mozilla.firefox.desktop', 'com.google.Chrome.desktop', 'com.spotify.Client.desktop', 'com.discordapp.Discord.desktop', 'com.valvesoftware.Steam.desktop', 'com.slack.Slack.desktop', 'md.obsidian.Obsidian.desktop', 'com.visualstudio.code.desktop', 'com.github.marhkb.Pods.desktop', 'org.gnome.Ptyxis.desktop']"
 
 gsettings set org.gnome.shell.weather automatic-location true
-
-taskItem "installing GNOME extensions"
-
-extensions=(
-  app-hider@lynith.dev
-  AlphabeticalAppGrid@stuarthayhurst
-  mediacontrols@cliffniff.github.com
-  nightthemeswitcher@romainvigier.fr
-  pip-on-top@rafostar.github.com
-  system-monitor@gnome-shell-extensions.gcampax.github.com
-  tailscale@joaophi.github.com
-  user-theme@gnome-shell-extensions.gcampax.github.com
-)
-
-for uuid in ${extensions[@]}
-do
-  if gnome-extensions list | grep --quiet $uuid; then
-    continue
-  fi
-
-  busctl --user call org.gnome.Shell.Extensions /org/gnome/Shell/Extensions org.gnome.Shell.Extensions InstallRemoteExtension s $uuid
-done
-
-taskItem "updating GNOME extension settings"
-
-schemadir="$HOME/.local/share/gnome-shell/extensions/caffeine@patapon.info/schemas"
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.caffeine nightlight-control 'always'
-
-schemadir="$HOME/.local/share/gnome-shell/extensions/just-perfection-desktop@just-perfection/schemas"
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.just-perfection notification-banner-position 2
-
-schemadir="$HOME/.local/share/gnome-shell/extensions/mediacontrols@cliffniff.github.com/schemas"
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols elements-order "['ICON', 'CONTROLS', 'LABEL']"
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols extension-index 1
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols extension-position 'Left'
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols labels-order "['TITLE', '-', 'ARTIST']"
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols show-control-icons-seek-backward true
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.mediacontrols show-control-icons-seek-forward true
-
-schemadir="$HOME/.local/share/gnome-shell/extensions/nightthemeswitcher@romainvigier.fr/schemas"
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.nightthemeswitcher.time manual-schedule true
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.nightthemeswitcher.time sunrise 6.0
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.nightthemeswitcher.time sunset 18.0
-
-schemadir="$HOME/.local/share/gnome-shell/extensions/pip-on-top@rafostar.github.com/schemas"
-gsettings --schemadir $schemadir set org.gnome.shell.extensions.pip-on-top stick true

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
+
 basedir=$(dirname $(realpath $0))
 source $basedir/../../shared/bootstrap.sh
 
@@ -8,10 +9,7 @@ taskLog "Flatpak"
 
 taskItem "removing Fedora flatpak repo"
 
-# Replace fedora flatpak repo with flathub (https://www.reddit.com/r/Fedora/comments/z2kk88/fedora_silverblue_replace_the_fedora_flatpak_repo/)
-if ! flatpak remotes | grep --quiet flathub; then
-  sudo flatpak remote-modify --no-filter --enable flathub
-fi
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 if flatpak info org.fedoraproject.MediaWriter &>/dev/null; then
   flatpak remove --noninteractive --assumeyes org.fedoraproject.MediaWriter
@@ -19,12 +17,13 @@ fi
 
 if flatpak remotes | grep --quiet fedora; then
   flatpak install --noninteractive --assumeyes --reinstall flathub $(flatpak list --app-runtime=org.fedoraproject.Platform --columns=application | tail -n +1 )
-  sudo flatpak remote-delete fedora
+  flatpak remove --unused
+  flatpak remote-delete fedora
 fi
 
 taskItem "installing apps"
 
-flatpak_apps=(
+flatpaks=(
   com.dec05eba.gpu_screen_recorder
   com.discordapp.Discord # Silverblue specific
   com.getpostman.Postman
@@ -51,14 +50,10 @@ flatpak_apps=(
   org.mozilla.firefox
   org.signal.Signal
   us.zoom.Zoom
-)
 
-flatpak_runtimes=(
   org.gtk.Gtk3theme.adw-gtk3
-  org.freedesktop.Platform.ffmpeg-full//24.08
-  org.freedesktop.Platform.VulkanLayer.MangoHud//24.08
+  org.freedesktop.Platform.ffmpeg-full
+  org.freedesktop.Platform.VulkanLayer.MangoHud
 )
 
-flatpak install --app --noninteractive ${flatpak_apps[@]}
-flatpak install --runtime --noninteractive ${flatpak_runtimes[@]}
-
+flatpak install --noninteractive ${flatpaks[@]}

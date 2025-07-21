@@ -1,12 +1,14 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
+
 basedir=$(dirname $(realpath $0))
 source $basedir/../../shared/bootstrap.sh
 
 taskLog "Development"
 
 taskItem "creating podman configuration"
+echo "net.ipv4.ip_unprivileged_port_start = 80" | sudo tee /etc/sysctl.d/99-podman.conf
 mkdir -p $HOME/.config/containers
 install -Dm644 $basedir/../../shared/files/containers.conf $HOME/.config/containers/containers.conf
 

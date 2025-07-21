@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
+
 basedir=$(dirname $(realpath $0))
 source $basedir/../../shared/bootstrap.sh
 

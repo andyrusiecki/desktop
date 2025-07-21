@@ -1,13 +1,14 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
+
 basedir=$(dirname $(realpath $0))
 source $basedir/../../shared/bootstrap.sh
 
 taskLog "Fonts"
 
-taskItem "installing nerd fonts"
-fonts=(
+nerd_fonts=(
+  AdwaitaMono
   BitstreamVeraSansMono
   CascadiaCode
   CascadiaMono
@@ -26,24 +27,58 @@ fonts=(
   UbuntuMono
 )
 
+ms_fonts=(
+  andale32
+  arial32
+  arialb32
+  comic32
+  courie32
+  georgi32
+  impact32
+  times32
+  trebuc32
+  verdan32
+  webdin32
+)
+
 tmp_dir=$(mktemp -d)
 base_dir="$HOME/.local/share/fonts"
 
 mkdir -p $base_dir
 
-for font in ${fonts[@]}
+taskItem "installing nerd fonts"
+for font in ${nerd_fonts[@]}
 do
   fontname="nerd-$(echo "$font" | sed 's/[A-Z]/-\l&/g' | sed 's/^-//')"
   fontdir="$base_dir/$fontname"
 
-  curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.zip --output $tmp_dir/$font.zip &> /dev/null
+  curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.tar.xz --output $tmp_dir/$font.tar.xz &> /dev/null
 
   if [ -d "$fontdir" ]; then
     rm -r $fontdir
   fi
 
   mkdir -p $fontdir
-  unzip $tmp_dir/$font.zip -d $fontdir/
+  tar -xf $tmp_dir/$font.tar.xz  -C $fontdir/
+
+  echo "Added Nerd Font: $font"
+done
+
+taskItem "installing ms fonts"
+for font in ${ms_fonts[@]}
+do
+  fontdir="$base_dir/ms-$font"
+
+  curl -L http://downloads.sourceforge.net/corefonts/$font.exe --output $tmp_dir/$font.exe &> /dev/null
+
+  if [ -d "$fontdir" ]; then
+    rm -r $fontdir
+  fi
+
+  mkdir -p $fontdir
+  cabextract -d $fontdir/ $tmp_dir/$font.exe &>/dev/null
+
+  echo "Added MS Font: $font"
 done
 
 rm -rf $tmp_dir

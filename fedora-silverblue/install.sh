@@ -11,5 +11,6 @@ $basedir/actions/terminal.sh
 $basedir/actions/development.sh
 $basedir/actions/fonts.sh
 $basedir/actions/gnome.sh
+$basedir/actions/gnome-extensions.sh
 
 echo "\nSetup complete! Please restart your computer to apply all changes."
