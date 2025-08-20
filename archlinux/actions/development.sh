@@ -11,6 +11,10 @@ pacmanInstall \
   atac \
   aws-cli-bin \
   difftastic \
+  docker \
+  docker-buildx \
+  docker-compose \
+  docker-credential-sercretservice-bin \
   git \
   go \
   jq \
