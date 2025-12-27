@@ -14,7 +14,7 @@ pacmanInstall \
   docker \
   docker-buildx \
   docker-compose \
-  docker-credential-sercretservice-bin \
+  docker-credential-secretservice-bin \
   git \
   go \
   jq \

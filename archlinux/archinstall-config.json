@@ -1,0 +1,154 @@
+{
+    "app_config": {
+        "audio_config": {
+            "audio": "pipewire"
+        },
+        "bluetooth_config": {
+            "enabled": true
+        }
+    },
+    "archinstall-language": "English",
+    "auth_config": {},
+    "bootloader_config": {
+        "bootloader": "Systemd-boot",
+        "removable": false,
+        "uki": true
+    },
+    "custom_commands": [
+      "sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf; sed -i '/Color/s/^#//g' /etc/pacman.conf; sed -i '/VerbosePkgLists/s/^#//g' /etc/pacman.conf",
+      "tmp_dir=$(mktemp -d); git clone https://aur.archlinux.org/paru-bin.git $tmp_dir/paru-bin; (cd $tmp_dir/paru-bin; makepkg -si --noconfirm --needed); rm -rf $tmp_dir",
+      "sed -i '/NewsOnUpgrade/s/^#//g' /etc/paru.conf; sed -i '/CombinedUpgrade/s/^#//g' /etc/paru.conf",
+      "echo 'TODO: reflector config'",
+      "echo 'TODO: extra network configs?'",
+      "curl -sS https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.gpg | gpg --import -",
+      "ufw default deny; ufw allow from 192.168.0.0/24; ufw enable",
+      "sed -i '/plymouth/! s/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf; sed -i '/quiet/! s/$/& quiet/' /etc/kernel/cmdline; sed -i '/splash/! s/$/& splash/' /etc/kernel/cmdline; mkinitcpio -P",
+      "paru -S --needed --noconfirm docker-credential-secretservice-bin downgrade google-chrome kubecolor slack-desktop spotify visual-studio-code-bin yazi zoom"
+    ],
+    "kernels": [
+        "linux",
+        "linux-lts"
+    ],
+    "locale_config": {
+        "kb_layout": "us",
+        "sys_enc": "UTF-8",
+        "sys_lang": "en_US.UTF-8"
+    },
+    "mirror_config": {
+        "custom_repositories": [],
+        "custom_servers": [],
+        "optional_repositories": [
+            "multilib"
+        ]
+    },
+    "network_config": {
+        "type": "nm"
+    },
+    "ntp": true,
+    "packages": [
+        "adw-gtk-theme",
+        "atac",
+        "aws-cli-v2",
+        "bat",
+        "btop",
+        "celluloid",
+        "cups",
+        "cups-pdf",
+        "discord",
+        "dive",
+        "docker",
+        "docker-buildx",
+        "docker-compose",
+        "eza",
+        "fastfetch",
+        "file-roller",
+        "firefox",
+        "fish",
+        "fprintd",
+        "gamemode",
+        "gamescope",
+        "git",
+        "git-delta",
+        "gnome-boxes",
+        "gnome-shell-extension-appindicator",
+        "gnome-shell-extension-caffeine",
+        "gnome-tweaks",
+        "go",
+        "iio-sensor-proxy",
+        "jq",
+        "kubectl",
+        "kubetui",
+        "lazydocker",
+        "lib32-gamemode",
+        "libreoffice-fresh",
+        "make",
+        "mangohud",
+        "nautilus-python",
+        "neovim",
+        "nextcloud-client",
+        "nftables",
+        "nodejs",
+        "npm",
+        "obsidian",
+        "otf-firamono-nerd",
+        "pacman-contrib",
+        "papers",
+        "plymouth",
+        "reflector",
+        "restic",
+        "signal-desktop",
+        "snap-pac",
+        "starship",
+        "steam",
+        "tailscale",
+        "ttf-adwaita-mono-nerd","ttf-bitstream-vera-mono-nerd","ttf-cascadia-code-nerd",
+        "ttf-cascadia-mono-nerd",
+        "ttf-dejavu-nerd",
+        "ttf-firacode-nerd",
+        "ttf-hack-nerd",
+        "ttf-iosevka-nerd",
+        "ttf-iosevkaterm-nerd",
+        "ttf-jetbrains-mono-nerd",
+        "ttf-meslo-nerd",
+        "ttf-ms-fonts",
+        "ttf-noto-nerd",
+        "ttf-roboto-mono-nerd",
+        "ttf-space-mono-nerd",
+        "ttf-sourcecodepro-nerd",
+        "ttf-ubuntu-mono-nerd",
+        "ttf-ubuntu-nerd",
+        "tuned-ppd",
+        "ufw",
+        "zoxide"
+    ],
+    "parallel_downloads": 5,
+    "profile_config": {
+        "gfx_driver": "Intel (open-source)",
+        "greeter": "gdm",
+        "profile": {
+            "custom_settings": {
+                "GNOME": {}
+            },
+            "details": [
+                "GNOME"
+            ],
+            "main": "Desktop"
+        }
+    },
+    "script": null,
+    "services": [
+      "bluetooth.service",
+      "cups.service",
+      "fprintd.service",
+      "paccache.timer",
+      "reflector.timer",
+      "systemd-resolved.service",
+      "tailscaled.service",
+      "tuned-ppd.service",
+      "ufw.service"
+      // TODO: determine if snapper timers are active by default
+    ],
+    "swap": true,
+    "timezone": "America/New_York",
+    "version": "3.0.14"
+}
