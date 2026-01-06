@@ -5,6 +5,12 @@
         },
         "bluetooth_config": {
             "enabled": true
+        },
+        "power_management_config": {
+            "power_management": "tuned"
+        },
+        "print_service_config": {
+            "enabled": true
         }
     },
     "archinstall-language": "English",
@@ -42,7 +48,7 @@
         ]
     },
     "network_config": {
-        "type": "nm"
+        "type": "nm_iwd"
     },
     "ntp": true,
     "packages": [
@@ -52,13 +58,12 @@
         "bat",
         "btop",
         "celluloid",
-        "cups",
-        "cups-pdf",
         "discord",
         "dive",
         "docker",
         "docker-buildx",
         "docker-compose",
+        "etckeeper",
         "eza",
         "fastfetch",
         "file-roller",
@@ -117,7 +122,6 @@
         "ttf-sourcecodepro-nerd",
         "ttf-ubuntu-mono-nerd",
         "ttf-ubuntu-nerd",
-        "tuned-ppd",
         "ufw",
         "zoxide"
     ],
@@ -137,18 +141,16 @@
     },
     "script": null,
     "services": [
-      "bluetooth.service",
-      "cups.service",
       "fprintd.service",
       "paccache.timer",
       "reflector.timer",
-      "systemd-resolved.service",
       "tailscaled.service",
-      "tuned-ppd.service",
       "ufw.service"
-      // TODO: determine if snapper timers are active by default
     ],
-    "swap": true,
+    "swap": {
+        "algorithm": "zstd",
+        "enabled": true
+    },
     "timezone": "America/New_York",
-    "version": "3.0.14"
+    "version": "3.0.15"
 }
