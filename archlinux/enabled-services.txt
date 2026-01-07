@@ -1,0 +1,12 @@
+# root
+paccache.timer
+reflector.timer
+#fprintd.service did not enable?
+tailscaled.service
+ufw.service
+docker.socket
+
+# user
+podman.socket
+restic-backup.timer
+restic-prune.timer
