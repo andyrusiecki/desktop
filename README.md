@@ -9,3 +9,4 @@ Various install scripts and configuration files for setting up desktop environme
   - [ ] native arch packages
   - [ ] AUR packages
 - [ ] check for extra local modifications since install (config files, udev rules, systemd services, reflector configs, etc.)
+  - [ ] enable beacondb for geoclue
