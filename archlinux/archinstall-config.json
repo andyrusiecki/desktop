@@ -25,7 +25,7 @@
       "tmp_dir=$(mktemp -d); git clone https://aur.archlinux.org/paru-bin.git $tmp_dir/paru-bin; (cd $tmp_dir/paru-bin; makepkg -si --noconfirm --needed); rm -rf $tmp_dir",
       "sed -i '/NewsOnUpgrade/s/^#//g' /etc/paru.conf; sed -i '/CombinedUpgrade/s/^#//g' /etc/paru.conf",
       "echo 'TODO: reflector config'",
-      "echo 'TODO: extra network configs?'",
+      "ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf",
       "curl -sS https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.gpg | gpg --import -",
       "ufw default deny; ufw allow from 192.168.0.0/24; ufw enable",
       "sed -i '/plymouth/! s/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf; sed -i '/quiet/! s/$/& quiet/' /etc/kernel/cmdline; sed -i '/splash/! s/$/& splash/' /etc/kernel/cmdline; mkinitcpio -P",
