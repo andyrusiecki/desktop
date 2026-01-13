@@ -24,7 +24,7 @@
       "sed -i '/ParallelDownloads/s/^#//g' /etc/pacman.conf; sed -i '/Color/s/^#//g' /etc/pacman.conf; sed -i '/VerbosePkgLists/s/^#//g' /etc/pacman.conf",
       "tmp_dir=$(mktemp -d); git clone https://aur.archlinux.org/paru-bin.git $tmp_dir/paru-bin; (cd $tmp_dir/paru-bin; makepkg -si --noconfirm --needed); rm -rf $tmp_dir",
       "sed -i '/NewsOnUpgrade/s/^#//g' /etc/paru.conf; sed -i '/CombinedUpgrade/s/^#//g' /etc/paru.conf",
-      "echo 'TODO: reflector config'",
+      "echo '--protocol https\n--country US\n--score 30\n--sort rate\n--save /etc/pacman.d/mirrorlist\n' > /etc/xdg/reflector/reflector.conf; reflector @/etc/xdg/reflector/reflector.conf",
       "ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf",
       "curl -sS https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.gpg | gpg --import -",
       "ufw default deny; ufw allow from 192.168.0.0/24; ufw enable",
