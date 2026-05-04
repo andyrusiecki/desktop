@@ -59,8 +59,13 @@ function install_ms_fonts() {
   mkdir -p $base_dir
   mkdir -p $tmp_dir
 
-  distrobox create --name tmp-ms-fonts --additional-packages cabextract
-
+  if command -v distrobox &> /dev/null; then
+    distrobox create --name tmp-ms-fonts --additional-packages cabextract
+  else
+    # assume toolbox is available
+    toolbox create tmp-ms-fonts
+    toolbox run --container tmp-ms-fonts -- dnf install -y cabextract
+  fi
   for font in ${fonts[@]}
   do
     fontdir="$base_dir/ms-$font"
@@ -72,14 +77,21 @@ function install_ms_fonts() {
     fi
 
     mkdir -p $fontdir
-    distrobox-enter --name tmp-ms-fonts -- cabextract -d $fontdir/ $tmp_dir/$font.exe
+    if command -v distrobox &> /dev/null; then
+      distrobox-enter --name tmp-ms-fonts -- cabextract -d $fontdir/ $tmp_dir/$font.exe
+    else
+      toolbox run --container tmp-ms-fonts -- cabextract -d $fontdir/ $tmp_dir/$font.exe
+    fi
 
     echo "Added Micosoft Font: $font"
   done
 
   rm -rf $tmp_dir
-  distrobox stop -yes tmp-ms-fonts
-  distrobox rm --force tmp-ms-fonts
+  if command -v distrobox &> /dev/null; then
+    distrobox rm --force tmp-ms-fonts
+  else
+    toolbox rm --force tmp-ms-fonts
+  fi
 }
 
 function install_gnome_extensions() {
