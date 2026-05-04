@@ -31,7 +31,6 @@ sudo pacman-key --populate archlinux
 
 taskItem "installing base packages"
 pacmanInstall \
-  cups \
   downgrade \
   file-roller \
   fprintd \

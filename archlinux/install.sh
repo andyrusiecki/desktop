@@ -14,6 +14,7 @@ $basedir/actions/fonts.sh
 $basedir/actions/gnome.sh
 $basedir/actions/power.sh
 $basedir/actions/network.sh
+$basedir/actions/printers.sh
 $basedir/actions/plymouth.sh
 
 echo "\nSetup complete! Please restart your computer to apply all changes."

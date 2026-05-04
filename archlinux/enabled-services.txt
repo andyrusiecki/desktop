@@ -5,6 +5,7 @@ reflector.timer
 tailscaled.service
 ufw.service
 docker.socket
+systemd-resolved.service
 
 # user
 podman.socket

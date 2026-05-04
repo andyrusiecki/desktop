@@ -134,6 +134,7 @@ gnome-shell-extension-caffeine
 
 # firewall
 ufw
+gufw
 
 # boot
 plymouth
