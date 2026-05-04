@@ -23,11 +23,11 @@ function install_nerd_fonts() {
     fontname="nerd-$(echo "$font" | sed 's/[A-Z]/-\l&/g' | sed 's/^-//')"
     fontdir="$base_dir/$fontname"
 
-    curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.tar.xz --output $tmp_dir/$font.tar.xz &> /dev/null
-
     if [ -d "$fontdir" ]; then
-      rm -r $fontdir
+      continue
     fi
+
+    curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$font.tar.xz --output $tmp_dir/$font.tar.xz &> /dev/null
 
     mkdir -p $fontdir
     tar -xf $tmp_dir/$font.tar.xz  -C $fontdir/
@@ -70,11 +70,11 @@ function install_ms_fonts() {
   do
     fontdir="$base_dir/ms-$font"
 
-    curl -L http://downloads.sourceforge.net/corefonts/$font.exe --output $tmp_dir/$font.exe &> /dev/null
-
     if [ -d "$fontdir" ]; then
-      rm -r $fontdir
+      continue
     fi
+
+    curl -L http://downloads.sourceforge.net/corefonts/$font.exe --output $tmp_dir/$font.exe &> /dev/null
 
     mkdir -p $fontdir
     if command -v distrobox &> /dev/null; then
