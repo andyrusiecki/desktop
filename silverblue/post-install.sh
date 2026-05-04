@@ -64,7 +64,7 @@ function install_ms_fonts() {
   else
     # assume toolbox is available
     toolbox --assumeyes create tmp-ms-fonts
-    toolbox --assumeyes run --container tmp-ms-fonts -- dnf install -y cabextract
+    toolbox --assumeyes run --container tmp-ms-fonts -- sudo dnf install -y cabextract
   fi
   for font in ${fonts[@]}
   do
