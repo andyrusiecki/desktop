@@ -239,7 +239,7 @@ flatpak_apps=(
 flatpak_runtimes=(
   org.gtk.Gtk3theme.adw-gtk3
   org.gtk.Gtk3theme.adw-gtk3-dark
-  org.freedesktop.Platform.VulkanLayer.MangoHud//25.08
+  org.freedesktop.Platform.VulkanLayer.MangoHud/x86_64/25.08
 )
 
 echo "Installing new flatpak apps and runtimes from flathub."
