@@ -63,8 +63,8 @@ function install_ms_fonts() {
     distrobox create --name tmp-ms-fonts --additional-packages cabextract
   else
     # assume toolbox is available
-    toolbox create tmp-ms-fonts
-    toolbox run --container tmp-ms-fonts -- dnf install -y cabextract
+    toolbox --assumeyes create tmp-ms-fonts
+    toolbox --assumeyes run --container tmp-ms-fonts -- dnf install -y cabextract
   fi
   for font in ${fonts[@]}
   do
@@ -80,7 +80,7 @@ function install_ms_fonts() {
     if command -v distrobox &> /dev/null; then
       distrobox-enter --name tmp-ms-fonts -- cabextract -d $fontdir/ $tmp_dir/$font.exe
     else
-      toolbox run --container tmp-ms-fonts -- cabextract -d $fontdir/ $tmp_dir/$font.exe
+      toolbox --assumeyes run --container tmp-ms-fonts -- cabextract -d $fontdir/ $tmp_dir/$font.exe
     fi
 
     echo "Added Micosoft Font: $font"
@@ -90,7 +90,7 @@ function install_ms_fonts() {
   if command -v distrobox &> /dev/null; then
     distrobox rm --force tmp-ms-fonts
   else
-    toolbox rm --force tmp-ms-fonts
+    toolbox --assumeyes rm --force tmp-ms-fonts
   fi
 }
 
